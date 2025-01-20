@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <title>トップページ</title>
+ </head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <h1 class="h1">Java + SpringBoot学習用アプリ</h1>
+        <p>このアプリの構成要素は以下です。</p>
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>カテゴリ</th>
+                        <th>要素</th>
+                        <th>バージョン</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>開発言語</td>
+                        <td>Java</td>
+                        <td>Amazon Corretto 17.0.13</td>
+                    </tr>
+                    <tr>
+                        <td>ビルドツール</td>
+                        <td>Gradle</td>
+                        <td>8.12</td>
+                    </tr>
+                    <tr>
+                        <td>フレームワーク</td>
+                        <td>SpringBoot</td>
+                        <td>3.1.2</td>
+                    </tr>
+                    <tr>
+                        <td>フレームワーク(DB)</td>
+                        <td>MyBatis</td>
+                        <td>3.0.2</td>
+                    </tr>
+                    <tr>
+                        <td>データベース</td>
+                        <td>H2 Database</td>
+                        <td>2.1.214</td>
+                    </tr>
+                    <tr>
+                        <td>テンプレートエンジン</td>
+                        <td>Thymeleaf</td>
+                        <td>3.1.2</td>
+                    </tr>
+                    <tr>
+                        <td>CSSフレームワーク</td>
+                        <td>Bootstrap</td>
+                        <td>5.2.3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+</body>
+</html>
