@@ -8,9 +8,19 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * タスクを管理するためのリポジトリインターフェース。
+ * MyBatisを使用してデータベース操作を行います。
+ */
 @Mapper
 public interface TaskRepository {
 
+    /**
+     * 条件に基づいてタスクを検索します。
+     *
+     * @param condition 検索条件を含むエンティティ
+     * @return 条件に一致するタスクのリスト
+     */
     @Select("""
             <script>
               SELECT *
@@ -30,15 +40,31 @@ public interface TaskRepository {
             """)
     List<TaskEntity> select(@Param("condition") TaskSearchEntity condition);
 
+    /**
+     * IDに基づいてタスクを取得します。
+     *
+     * @param taskId タスクのID
+     * @return 該当するタスクのOptional
+     */
     @Select("SELECT * FROM tasks WHERE id = #{taskId};")
     Optional<TaskEntity> selectById(@Param("taskId") long taskId);
 
+    /**
+     * 新しいタスクをデータベースに挿入します。
+     *
+     * @param newEntity 挿入するタスクのエンティティ
+     */
     @Insert("""
         INSERT INTO tasks (summary, description, status)
         VALUES (#{task.summary}, #{task.description}, #{task.status});
         """)
     void insert(@Param("task") TaskEntity newEntity);
 
+    /**
+     * タスクを更新します。
+     *
+     * @param entity 更新するタスクのエンティティ
+     */
     @Update("""
         Update tasks
         SET
@@ -50,6 +76,11 @@ public interface TaskRepository {
         """)
     void update(@Param("task") TaskEntity entity);
 
+    /**
+     * IDに基づいてタスクを削除します。
+     *
+     * @param id 削除するタスクのID
+     */
     @Delete("DELETE FROM tasks WHERE id = #{id};")
     void delete(@Param("id") long id);
 }

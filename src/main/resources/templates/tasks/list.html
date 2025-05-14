@@ -9,39 +9,48 @@
 <body>
 <section layout:fragment="content">
     <div>
+        <!-- タスク作成ページへのリンク -->
         <a th:href="@{/tasks/create}" class="btn btn-primary">作成</a>
     </div>
     <div class="card mt-3" >
         <div class="card-header">
+            <!-- 検索フォームのヘッダー -->
             検索
         </div>
         <div class="card-body">
+            <!-- 検索フォーム -->
             <form th:action="@{/tasks}" method="get" th:object="${searchDTO}">
                 <div class="form-group">
+                    <!-- 概要検索フィールド -->
                     <label class="form-label" for="summarySearch">概要</label>
                     <input class="form-control" id="summarySearch" th:field="*{summary}" placeholder="概要">
                 </div>
                 <div class="form-group mt-3">
                     <div>
+                        <!-- ステータス検索フィールド -->
                         <label class="form-label">ステータス</label>
                     </div>
                     <div class="btn-group">
+                        <!-- TODOステータスのチェックボックス -->
                         <input class="btn-check" type="checkbox" id="statusTodo" name="status" value="TODO" th:checked="*{isChecked('TODO')}">
                         <label class="btn btn-outline-primary" for="statusTodo">TODO</label>
+                        <!-- DOINGステータスのチェックボックス -->
                         <input class="btn-check" type="checkbox" id="statusDoing" name="status" value="DOING" th:checked="*{isChecked('DOING')}">
                         <label class="btn btn-outline-primary" for="statusDoing">DOING</label>
+                        <!-- DONEステータスのチェックボックス -->
                         <input class="btn-check" type="checkbox" id="statusDone" name="status" value="DONE" th:checked="*{isChecked('DONE')}">
                         <label class="btn btn-outline-primary" for="statusDone">DONE</label>
                     </div>
                 </div>
                 <div class="mt-3">
+                    <!-- 検索ボタン -->
                     <button type="submit" class="btn btn-primary">検索</button>
                 </div>
             </form>
         </div>
-
     </div>
     <div>
+        <!-- タスク一覧テーブル -->
         <table class="table">
             <thead>
             <tr>
@@ -51,9 +60,13 @@
             </tr>
             </thead>
             <tbody>
+            <!-- タスクリストをループして表示 -->
             <tr th:each="task : ${taskList}" th:object="${task}">
+                <!-- タスクID -->
                 <td><a th:href="@{/tasks/{id}(id=*{id})}" th:text="'#' + *{id}"></a></td>
+                <!-- タスク概要 -->
                 <td><a th:href="@{/tasks/{id}(id=*{id})}" th:text="*{summary}"></a></td>
+                <!-- タスクステータス -->
                 <td th:text="*{status}"></td>
             </tr>
             </tbody>

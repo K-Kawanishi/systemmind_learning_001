@@ -9,10 +9,21 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/**
+ * タスク検索フォームを表すレコードクラス。
+ *
+ * @param summary 検索対象のタスクの概要
+ * @param status  検索対象のタスクのステータスリスト
+ */
 public record TaskSearchForm(
         String summary,
         List<String> status
 ) {
+    /**
+     * フォームデータをエンティティに変換します。
+     *
+     * @return TaskSearchEntity オブジェクト
+     */
     public TaskSearchEntity toEntity() {
         var statusEntityList = Optional.ofNullable(status())
                 .map(statusList -> statusList.stream()
@@ -21,8 +32,12 @@ public record TaskSearchForm(
         return new TaskSearchEntity(summary(), statusEntityList);
     }
 
+    /**
+     * フォームデータをDTOに変換します。
+     *
+     * @return TaskSearchDTO オブジェクト
+     */
     public TaskSearchDTO toDTO() {
         return new TaskSearchDTO(summary(), status());
     }
-
 }

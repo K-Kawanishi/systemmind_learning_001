@@ -2,12 +2,28 @@ package com.example.todo.dto;
 
 import com.example.todo.entity.TaskEntity;
 
+
+/**
+ * タスクを表すDTO（Data Transfer Object）クラス。
+ * このクラスはタスクのデータを転送するために使用されます。
+ *
+ * @param id          タスクの一意の識別子
+ * @param summary     タスクの概要
+ * @param description タスクの詳細説明
+ * @param status      タスクの状態（例: "PENDING", "COMPLETED"）
+ */
 public record TaskDTO(
         long id,
         String summary,
         String description,
         String status
 ) {
+    /**
+     * TaskEntityオブジェクトをTaskDTOに変換します。
+     *
+     * @param entity TaskEntityオブジェクト
+     * @return TaskDTOオブジェクト
+     */
     public static TaskDTO toDTO(TaskEntity entity) {
         return new TaskDTO(
                 entity.id(),
