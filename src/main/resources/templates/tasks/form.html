@@ -27,24 +27,38 @@
             <!-- 概要入力フィールド -->
             <div class="form-group mt-3">
                 <label for="summaryInput" class="form-label">概要</label>
-                <input type="text" id="summaryInput" th:field="*{summary}" class="form-control" th:errorclass="is-invalid"/>
+                <input type="text" id="summaryInput" th:field="*{summary}" class="form-control" th:errorclass="is-invalid"
+                       placeholder="タイトルを入力してください"/>
                 <span th:errors="*{summary}" class="invalid-feedback"></span>
             </div>
             <!-- 詳細入力フィールド -->
             <div class="form-group mt-3">
                 <label for="descriptionInput" class="form-label">詳細</label>
-                <textarea id="descriptionInput" th:field="*{description}" class="form-control"  th:errorclass="is-invalid" rows="10"></textarea>
+                <textarea id="descriptionInput" th:field="*{description}" class="form-control"  th:errorclass="is-invalid" rows="10"
+                          placeholder="概要は256文字以内で入力してください"></textarea>
                 <span th:errors="*{description}" class="invalid-feedback"></span>
             </div>
             <!-- ステータス選択フィールド -->
             <div class="form-group mt-3">
                 <label for="statusInput" class="form-label">ステータス</label>
                 <select id="statusInput" th:field="*{status}" class="form-control"  th:errorclass="is-invalid">
+                    <option value="">プルダウンから入力してください</option>
                     <option value="TODO">TODO</option>
                     <option value="DOING">DOING</option>
                     <option value="DONE">DONE</option>
                 </select>
                 <span th:errors="*{status}" class="invalid-feedback"></span>
+            </div>
+            <!-- 優先度入力フィールド -->
+            <div class="form-group mt-3">
+                <label for="statusInput" class="form-label">優先度</label>
+                <select id="priorityInput" th:field="*{priority}" class="form-control" th:errorclass="is-invalid">
+                    <option value="">プルダウンから入力してください</option>
+                    <option value="HIGH">HIGH</option>
+                    <option value="NORMAL">NORMAL</option>
+                    <option value="LOW">LOW</option>
+                </select>
+                <span th:errors="*{priority}" class="invalid-feedback"></span>
             </div>
             <!-- ボタン: 作成/編集と戻る -->
             <div class="mt-3">

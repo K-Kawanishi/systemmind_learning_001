@@ -1,6 +1,7 @@
 package com.example.todo.form;
 
 import com.example.todo.entity.TaskEntity;
+import com.example.todo.entity.TaskPriority;
 import com.example.todo.entity.TaskStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -17,7 +18,8 @@ public record TaskForm (
         String description,
         @NotBlank
         @Pattern( regexp = "TODO|DOING|DONE" , message = "ステータスはTODO, DOING, DONEのいずれかを指定してください")
-        String status
+        String status,
+        String priority
 ){
 
     /**
@@ -27,7 +29,10 @@ public record TaskForm (
      * @return 生成されたTaskForm
      */
     public static Object fromEntity(TaskEntity taskEntity) {
-        return new TaskForm(taskEntity.summary(), taskEntity.description(), taskEntity.status().name());
+        return new TaskForm(taskEntity.summary(),
+                taskEntity.description(),
+                taskEntity.status().name(),
+                taskEntity.priority().name());
     }
 
     /**
@@ -37,7 +42,13 @@ public record TaskForm (
      * @return 変換されたTaskEntity
      */
     public TaskEntity toEntity() {
-        return new TaskEntity(null, summary(), description(), TaskStatus.valueOf(status()));
+        return new TaskEntity(
+                null,
+                summary(),
+                description(),
+                TaskStatus.valueOf(status()),
+                TaskPriority.valueOf(priority())
+        );
     }
 
     /**
@@ -48,6 +59,11 @@ public record TaskForm (
      * @return 変換されたTaskEntity
      */
     public TaskEntity toEntity(Long id) {
-        return new TaskEntity(id, summary(), description(), TaskStatus.valueOf(status()));
+        return new TaskEntity(id,
+                summary(),
+                description(),
+                TaskStatus.valueOf(status()),
+                TaskPriority.valueOf(priority())
+        );
     }
 }
