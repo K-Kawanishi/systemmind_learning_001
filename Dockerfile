@@ -1,3 +1,6 @@
+
+# docker build -t todo-app .
+# docker run -d -p 8080:8080 --name todo-app todo-app
 # Rocky Linuxベースのイメージを使用
 FROM rockylinux:9
 
