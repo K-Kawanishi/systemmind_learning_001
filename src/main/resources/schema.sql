@@ -4,5 +4,5 @@ CREATE TABLE tasks
     summary VARCHAR(256) NOT NULL,
     description TEXT,
     status VARCHAR(256) NOT NULL
-
+    priority VARCHAR(256) NOT NULL
 );
