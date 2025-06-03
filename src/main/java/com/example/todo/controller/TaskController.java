@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/tasks")
+@RequestMapping("/tasks") //このクラス内の全てのURLの先頭に/tasksが付く。
 public class TaskController {
 
     private final TaskService taskService;
+    /*↑フィールド。このクラスだけで使えて一回だけ初期化できる。
+    @RequiredArgsConstructorアノテーションのおかげで、SpringがTaskServiceのインスタンスを自動で注入（DI）してくれる。*/
+
 
     /**
      * タスク一覧画面を表示する。
@@ -28,16 +31,16 @@ public class TaskController {
      * @param model      ビューに渡すデータを保持するオブジェクト
      * @return タスク一覧画面のテンプレート名
      */
-    @GetMapping("")
-    public String list(TaskSearchForm searchForm, Model model) {
+    @GetMapping("")  //tasksへのGETリクエストで呼ばれる
+    public String list(TaskSearchForm searchForm, Model model) {  //検索条件を受け取って画面にデータを渡す。
         // 検索条件に一致するタスクを取得
         var taskList = taskService.find(searchForm.toEntity())
                 .stream()
-                .map(TaskDTO::toDTO)
+                .map(TaskDTO::toDTO) //DTO変換。DBのデータ(エンティティ)を画面表示やAPI返却用の専用オブジェクト（DTO）に詰め替えること。
                 .toList();
-        model.addAttribute("taskList", taskList);
+        model.addAttribute("taskList", taskList);  //画面にデータを渡す
         model.addAttribute("searchDTO", searchForm.toDTO());
-        return "tasks/list";
+        return "tasks/list";  //tasks/list.htmlを表示
     }
 
     /**
