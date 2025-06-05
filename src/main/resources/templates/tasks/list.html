@@ -42,25 +42,23 @@
                         <label class="btn btn-outline-primary" for="statusDone">DONE</label>
                     </div>
                 </div>
-                <div class="mt-3">
-                    <div>
+                <div class="mt-3"><div>
                     <!-- 優先度検索フィールド -->
                     <label class="form-label mt-3">優先度</label>
-                    </div>
+                </div>
                     <div class="btn-group">
                         <!-- LOW優先度のチェックボックス -->
-                        <input class="btn-check" type="checkbox" id="priorityLow" name="priority" value="LOW" th:checked="*{isCheckedPriority('LOW')}">
+                        <input class="btn-check" type="checkbox" id="priorityLow" name="priority" value="LOW" th:checked="*{isChecked('LOW')}">
                         <label class="btn btn-outline-primary" for="priorityLow">低</label>
                         <!-- MEDIUM優先度のチェックボックス -->
-                        <input class="btn-check" type="checkbox" id="priorityMedium" name="priority" value="MEDIUM" th:checked="*{isCheckedPriority('MEDIUM')}">
+                        <input class="btn-check" type="checkbox" id="priorityMedium" name="priority" value="MEDIUM" th:checked="*{isChecked('MEDIUM')}">
                         <label class="btn btn-outline-primary" for="priorityMedium">中</label>
                         <!-- HIGH優先度のチェックボックス -->
-                        <input class="btn-check" type="checkbox" id="priorityHigh" name="priority" value="HIGH" th:checked="*{isCheckedPriority('HIGH')}">
+                        <input class="btn-check" type="checkbox" id="priorityHigh" name="priority" value="HIGH" th:checked="*{isChecked('HIGH')}">
                         <label class="btn btn-outline-primary" for="priorityHigh">高</label>
                     </div>
-                </div><br>
-                <br>
-                <div>
+                </div>
+                    <div>
                     <!-- 検索ボタン -->
                     <button type="submit" class="btn btn-primary">検索</button>
                 </div>
