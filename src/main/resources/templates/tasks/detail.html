@@ -33,9 +33,15 @@
         </form>
     </div>
     <div th:object="${task}" class="mt-3">
-        <!-- タスク情報: ID、概要、ステータス、説明を表示 -->
+        <!-- タスク情報: ID、概要、ステータス、説明を表示, 優先度 -->
         <h2 th:text="'#' + *{id} + ' ' + *{summary}"></h2>
         <p th:text="*{status}"></p>
+        <label>優先度</label>
+        <p th:switch="*{priority}">
+            <span th:case="'HIGH'" style="color:red;">高</span>
+            <span th:case="'MEDIUM'" style="color:yellow;">中</span>
+            <span th:case="'LOW'" style="color:green;">低</span>
+        </p>
         <pre th:text="*{description}"></pre>
     </div>
 </section>

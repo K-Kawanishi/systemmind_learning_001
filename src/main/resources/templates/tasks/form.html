@@ -46,6 +46,15 @@
                 </select>
                 <span th:errors="*{status}" class="invalid-feedback"></span>
             </div>
+            <!-- 優先度選択フィールド -->
+            <div class="form-group mt-3">
+                <label for="priorityInput" class="form-label">優先度</label>
+                <select id="priorityInput" th:field="*{priority}" class="form-control"  th:errorclass="is-invalid">
+                    <option value="LOW">低</option>
+                    <option value="MEDIUM">中</option>
+                    <option value="HIGH">高</option>
+                </select>
+            </div>
             <!-- ボタン: 作成/編集と戻る -->
             <div class="mt-3">
                 <button type="submit" class="btn btn-primary" th:text="${mode == 'CREATE'} ? '作成' : '編集'"></button>
