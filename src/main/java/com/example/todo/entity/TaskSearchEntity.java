@@ -1,7 +1,5 @@
 package com.example.todo.entity;
 
-import com.example.todo.repository.TaskRepository;
-
 import java.util.List;
 
 /**
@@ -9,9 +7,11 @@ import java.util.List;
  *
  * @param summary タスクの概要を表す文字列
  * @param status  タスクの状態を表すリスト
+ * @param priority タスクの優先度を表すリスト（将来の拡張用）
  */
 public record TaskSearchEntity(
         String summary,
-        List<TaskStatus> status
+        List<TaskStatus> status,
+        List<TaskPriority> priority
 ) {
 }
