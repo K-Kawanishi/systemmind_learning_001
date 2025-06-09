@@ -16,7 +16,8 @@ public record TaskDTO(
         long id,
         String summary,
         String description,
-        String status
+        String status,
+        String priority
 ) {
     /**
      * TaskEntityオブジェクトをTaskDTOに変換します。
@@ -29,7 +30,8 @@ public record TaskDTO(
                 entity.id(),
                 entity.summary(),
                 entity.description(),
-                entity.status().name()
+                entity.status().name(),
+                entity.priority().name()
         );
     }
 }

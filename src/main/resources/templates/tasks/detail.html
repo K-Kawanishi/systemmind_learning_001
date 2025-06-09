@@ -33,9 +33,10 @@
         </form>
     </div>
     <div th:object="${task}" class="mt-3">
-        <!-- タスク情報: ID、概要、ステータス、説明を表示 -->
+        <!-- タスク情報: ID、概要、ステータス、優先度、説明を表示 -->
         <h2 th:text="'#' + *{id} + ' ' + *{summary}"></h2>
         <p th:text="*{status}"></p>
+        <p th:text="'優先度: ' + *{priority}"></p>
         <pre th:text="*{description}"></pre>
     </div>
 </section>
