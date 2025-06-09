@@ -76,7 +76,7 @@ public interface TaskRepository {
         SET
             summary     = #{task.summary},
             description = #{task.description},
-            status      = #{task.status}
+            status      = #{task.status},
             priority    = #{task.priority}
         WHERE
             id = #{task.id};
