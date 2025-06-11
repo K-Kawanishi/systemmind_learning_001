@@ -17,7 +17,11 @@ public record TaskForm (
         String description,
         @NotBlank
         @Pattern( regexp = "TODO|DOING|DONE" , message = "ステータスはTODO, DOING, DONEのいずれかを指定してください")
-        String status
+        String status,
+        @jakarta.validation.constraints.Min(1)
+        @jakarta.validation.constraints.Max(5)
+        int priority
+
 ){
 
     /**
@@ -27,7 +31,7 @@ public record TaskForm (
      * @return 生成されたTaskForm
      */
     public static Object fromEntity(TaskEntity taskEntity) {
-        return new TaskForm(taskEntity.summary(), taskEntity.description(), taskEntity.status().name());
+        return new TaskForm(taskEntity.summary(), taskEntity.description(), taskEntity.status().name(), taskEntity.priority());
     }
 
     /**
@@ -37,7 +41,7 @@ public record TaskForm (
      * @return 変換されたTaskEntity
      */
     public TaskEntity toEntity() {
-        return new TaskEntity(null, summary(), description(), TaskStatus.valueOf(status()));
+        return new TaskEntity(null, summary(), description(), TaskStatus.valueOf(status()), priority());
     }
 
     /**
@@ -48,6 +52,6 @@ public record TaskForm (
      * @return 変換されたTaskEntity
      */
     public TaskEntity toEntity(Long id) {
-        return new TaskEntity(id, summary(), description(), TaskStatus.valueOf(status()));
+        return new TaskEntity(id, summary(), description(), TaskStatus.valueOf(status()), priority());
     }
 }

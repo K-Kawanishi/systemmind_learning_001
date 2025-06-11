@@ -149,4 +149,5 @@ public class TaskController {
         taskService.delete(id);
         return "redirect:/tasks";
     }
+
 }
