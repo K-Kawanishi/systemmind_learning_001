@@ -70,4 +70,16 @@ public class TaskService {
     public void delete(long id) {
         taskRepository.delete(id);
     }
+
+    /**
+     * 指定されたIDのタスクを一括削除します。
+     *
+     * @param ids 削除するタスクのIDリスト
+     */
+    @Transactional
+    public void deleteBatch(List<Long> ids) {
+        for(Long id : ids) {
+            taskRepository.delete(id);
+        }
+    }
 }

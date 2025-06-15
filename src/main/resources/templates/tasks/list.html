@@ -66,6 +66,14 @@
             </form>
         </div>
     </div>
+    <br>
+    <div class="d-flex align-items-start gap-2">
+        <select class="form-select form-select-sm " style="width: 150px;"  id ="taskBatchAction" aria-label=".form-select-sm example" >
+            <option value="0" selected>一括操作を選択</option>
+            <option value="1">一括削除</option>
+            <option value="2">一括更新</option>
+        </select><button class="btn btn-primary btn-sm" id="taskBatchActionButton">実行</button>
+    </div>
     <div>
         <!-- タスク一覧テーブル -->
         <table class="table">
@@ -77,11 +85,15 @@
                 <th>優先度</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="result-table-body">
             <!-- タスクリストをループして表示 -->
             <tr th:each="task : ${taskList}" th:object="${task}">
                 <!-- タスクID -->
-                <td><a th:href="@{/tasks/{id}(id=*{id})}" th:text="'#' + *{id}"></a></td>
+                <!-- タスク選択用のチェックボックス -->
+                <td>
+                    <input type="checkbox" class="task-checkbox form-check-input" th:attr="data-n=*{id}" th:style="'display: none;'" />
+                    <a th:href="@{/tasks/{id}(id=*{id})}" th:text="'#' + *{id}" class="task-id" ></a>
+                </td>
                 <!-- タスク概要 -->
                 <td><a th:href="@{/tasks/{id}(id=*{id})}" th:text="*{summary}"></a></td>
                 <!-- タスクステータス -->
@@ -96,6 +108,8 @@
             </tbody>
         </table>
     </div>
+    <script src="/js/taskList.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </section>
 </body>
 </html>
