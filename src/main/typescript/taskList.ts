@@ -1,4 +1,5 @@
-import { selectedItems, deleteBatch } from './batch';
+import { selectedItems } from './batch';
+import {batchDeleteModal} from './modal';
 import $ from 'jquery';
 
 // チェックボックス表示切替
@@ -6,7 +7,7 @@ $('#taskBatchAction').on('change', function () {
     const action = $(this).val();
     $('#result-table-body tr').each(function () {
         const $checkbox = $(this).find('.task-checkbox');
-        if (action === '1' || action === '2') {
+        if (action != 0) {
             $checkbox.css('display', 'inline');
         } else {
             $checkbox.css('display', 'none');
@@ -23,7 +24,7 @@ $('#taskBatchActionButton').on('click', function () {
     }
     switch (action) {
         case '1': // 削除
-            deleteBatch();
+            batchDeleteModal();
             break;
         case '2': // 更新
             alert('更新機能はまだ実装されていません。');
