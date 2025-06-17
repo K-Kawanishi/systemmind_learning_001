@@ -2,7 +2,7 @@ import { selectedItems, deleteBatch } from './batch';
 import $ from 'jquery';
 
 // チェックボックス表示切替
-$('#taskBatchAction').on('click', function () {
+$('#taskBatchAction').on('change', function () {
     const action = $(this).val();
     $('#result-table-body tr').each(function () {
         const $checkbox = $(this).find('.task-checkbox');
