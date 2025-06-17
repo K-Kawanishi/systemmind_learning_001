@@ -50,13 +50,13 @@
                     <div class="btn-group">
                         <!-- 高のチェックボックス -->
                         <input class="btn-check" type="checkbox" id="priorityHigh" name="priority" value="HIGH" th:checked="*{isCheckedpriority('HIGH')}">
-                        <label class="btn btn-outline-primary" for="priorityHigh">HIGH</label>
+                        <label class="btn btn-outline-primary" for="priorityHigh">高</label>
                         <!-- 普のチェックボックス -->
                         <input class="btn-check" type="checkbox" id="priorityNormal" name="priority" value="NORMAL" th:checked="*{isCheckedpriority('NORMAL')}">
-                        <label class="btn btn-outline-primary" for="priorityNormal">NORMAL</label>
+                        <label class="btn btn-outline-primary" for="priorityNormal">中</label>
                         <!-- 低のチェックボックス -->
                         <input class="btn-check" type="checkbox" id="priorityLow" name="priority" value="LOW" th:checked="*{isCheckedpriority('LOW')}">
-                        <label class="btn btn-outline-primary" for="priorityLow">LOW</label>
+                        <label class="btn btn-outline-primary" for="priorityLow">低</label>
                     </div>
                 </div>
                 <div class="mt-3">
@@ -87,7 +87,11 @@
                 <!-- タスクステータス -->
                 <td th:text="*{status}"></td>
                 <!-- 優先度 -->
-                <td th:text="*{priority}"></td>
+                <td th:switch="*{priority}">
+                <span th:case="'HIGH'" class="badge bg-danger">高</span>
+                <span th:case="'NORMAL'" class="badge bg-warning">中</span>
+                <span th:case="'LOW'" class="badge bg-secondary">低</span>
+                </td>
             </tr>
             </tbody>
         </table>

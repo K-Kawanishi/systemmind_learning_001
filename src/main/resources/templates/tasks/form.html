@@ -54,9 +54,9 @@
                 <label for="statusInput" class="form-label">優先度</label>
                 <select id="priorityInput" th:field="*{priority}" class="form-control" th:errorclass="is-invalid">
                     <option value="">プルダウンから入力してください</option>
-                    <option value="HIGH">HIGH</option>
-                    <option value="NORMAL">NORMAL</option>
-                    <option value="LOW">LOW</option>
+                    <option value="HIGH">高</option>
+                    <option value="NORMAL">中</option>
+                    <option value="LOW">低</option>
                 </select>
                 <span th:errors="*{priority}" class="invalid-feedback"></span>
             </div>
