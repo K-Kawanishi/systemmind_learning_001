@@ -63,6 +63,15 @@
                     <!-- 検索ボタン -->
                     <button type="submit" class="btn btn-primary">検索</button>
                 </div>
+                <!-- DB更新フィールド -->
+                <div class="form-group mt-3">
+                    <label class="form-label" for="dbUpdateAction">DB更新</label>
+                    <select class="form-select" id="dbUpdateAction" name="dbUpdateAction">
+                        <option value="">選択してください</option>
+                        <option value="DELETE">一括削除</option>
+                        <option value="UPDATE">一括更新</option>
+                    </select>
+                </div>
             </form>
         </div>
     </div>
@@ -88,9 +97,9 @@
                 <td th:text="*{status}"></td>
                 <!-- 優先度 -->
                 <td th:switch="*{priority}">
-                <span th:case="'HIGH'" class="badge bg-danger">高</span>
-                <span th:case="'NORMAL'" class="badge bg-warning">中</span>
-                <span th:case="'LOW'" class="badge bg-secondary">低</span>
+                    <span th:case="'HIGH'" class="badge bg-danger">高</span>
+                    <span th:case="'NORMAL'" class="badge bg-warning">中</span>
+                    <span th:case="'LOW'" class="badge bg-secondary">低</span>
                 </td>
             </tr>
             </tbody>

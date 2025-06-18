@@ -38,9 +38,10 @@
         <p th:text="*{status}"></p>
         <p th:switch="*{priority}">優先度：
             <span th:case="'HIGH'" class="badge bg-danger">高</span>
-            <span th:case="'MEDIUM'" class="badge bg-warning">中</span>
+            <span th:case="'NORMAL'" class="badge bg-warning">中</span>
             <span th:case="'LOW'" class="badge bg-secondary">低</span>
-        <p th:text="*{description}"></p>
+        </p>
+        <pre th:text="*{description}"></pre>
     </div>
 </section>
 </body>

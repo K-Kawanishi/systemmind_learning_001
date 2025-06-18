@@ -19,8 +19,6 @@ public record TaskForm (
         @NotBlank
         @Pattern( regexp = "TODO|DOING|DONE" , message = "ステータスはTODO, DOING, DONEのいずれかを指定してください")
         String status,
-        @NotBlank
-        @Pattern( regexp = "HIGH|NORMAL|LOW" , message = "ステータスはHIGH, NORMAL, LOWのいずれかを指定してください")
         String priority
 ){
 
