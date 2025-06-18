@@ -9,9 +9,11 @@ import java.util.List;
  *
  * @param summary タスクの概要を表す文字列
  * @param status  タスクの状態を表すリスト
+ * @param priority  タスクの状態を表すリスト
  */
 public record TaskSearchEntity(
         String summary,
-        List<TaskStatus> status
+        List<TaskStatus> status,
+        List<String> priority
 ) {
 }

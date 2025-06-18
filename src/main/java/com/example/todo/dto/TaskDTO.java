@@ -17,7 +17,7 @@ public record TaskDTO(
         String summary,
         String description,
         String status,
-        int priority
+        String priority
 ) {
     /**
      * TaskEntityオブジェクトをTaskDTOに変換します。

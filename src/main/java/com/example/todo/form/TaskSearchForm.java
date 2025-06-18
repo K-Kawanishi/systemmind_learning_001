@@ -14,10 +14,12 @@ import java.util.stream.Stream;
  *
  * @param summary 検索対象のタスクの概要
  * @param status  検索対象のタスクのステータスリスト
+ * @param priority フィルタリングに使用する優先度のリスト
  */
 public record TaskSearchForm(
         String summary,
-        List<String> status
+        List<String> status,
+        List<String> priority
 ) {
     /**
      * フォームデータをエンティティに変換します。
@@ -29,7 +31,7 @@ public record TaskSearchForm(
                 .map(statusList -> statusList.stream()
                         .map(TaskStatus::valueOf).toList())
                 .orElse(List.of());
-        return new TaskSearchEntity(summary(), statusEntityList);
+        return new TaskSearchEntity(summary(), statusEntityList, priority());
     }
 
     /**
@@ -38,6 +40,6 @@ public record TaskSearchForm(
      * @return TaskSearchDTO オブジェクト
      */
     public TaskSearchDTO toDTO() {
-        return new TaskSearchDTO(summary(), status());
+        return new TaskSearchDTO(summary(), status(), priority());
     }
 }

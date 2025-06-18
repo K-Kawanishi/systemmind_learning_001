@@ -11,7 +11,8 @@ import java.util.Optional;
  */
 public record TaskSearchDTO(
         String summary,
-        List<String> statusList
+        List<String> statusList,
+        List<String> priorityList
 ) {
     /**
      * 指定されたステータスがステータスリストに含まれているかを確認します。
@@ -22,7 +23,11 @@ public record TaskSearchDTO(
     public boolean isChecked(String status) {
         return Optional.ofNullable(statusList())
                 .map(statusList -> statusList.contains(status))
-                .orElse(false)
-                ;
+                .orElse(false);
+    }
+    public boolean isPriorityChecked(String priority) {
+        return Optional.ofNullable(priorityList())
+                .map(list -> list.contains(priority))
+                .orElse(false);
     }
 }

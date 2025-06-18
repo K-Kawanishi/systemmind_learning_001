@@ -35,6 +35,12 @@ public interface TaskRepository {
                         #{status}
                       </foreach>
                 </if>
+                <if test='condition.priority != null and condition.priority.size() > 0'>
+          AND priority IN
+              <foreach collection='condition.priority' item='priority' separator=',' open='(' close=')'>
+                #{priority}
+              </foreach>
+        </if>
               </where>
             </script>
             """)

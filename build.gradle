@@ -44,5 +44,6 @@ tasks.named('test') {
 
 tasks.named('bootRun') {
     sourceResources sourceSets.main
+    jvmArgs = ["-Dfile.encoding=UTF-8"]
 }
 

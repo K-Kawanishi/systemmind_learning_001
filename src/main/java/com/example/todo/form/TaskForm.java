@@ -18,9 +18,8 @@ public record TaskForm (
         @NotBlank
         @Pattern( regexp = "TODO|DOING|DONE" , message = "ステータスはTODO, DOING, DONEのいずれかを指定してください")
         String status,
-        @jakarta.validation.constraints.Min(1)
-        @jakarta.validation.constraints.Max(5)
-        int priority
+        @NotBlank(message = "優先度を選択してください")
+        String priority
 
 ){
 
