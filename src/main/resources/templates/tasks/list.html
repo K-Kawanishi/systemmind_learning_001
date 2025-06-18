@@ -64,13 +64,14 @@
                     <button type="submit" class="btn btn-primary">検索</button>
                 </div>
                 <!-- DB更新フィールド -->
-                <div class="form-group mt-3">
-                    <label class="form-label" for="dbUpdateAction">DB更新</label>
-                    <select class="form-select" id="dbUpdateAction" name="dbUpdateAction">
+                <div class="form-group mt-3 d-flex align-items-center">
+                    <label class="form-label me-2 small" for="dbUpdateAction">DB更新</label>
+                    <select class="form-select form-select-sm w-auto me-2" id="dbUpdateAction" name="dbUpdateAction">
                         <option value="">選択してください</option>
                         <option value="DELETE">一括削除</option>
                         <option value="UPDATE">一括更新</option>
                     </select>
+                    <button type="submit" class="btn btn-outline-secondary btn-sm">実行</button>
                 </div>
             </form>
         </div>
