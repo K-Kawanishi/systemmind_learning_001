@@ -9,6 +9,7 @@ $('#taskBatchAction').on('change', function () {
         const $checkbox = $(this).find('.task-checkbox');
         if (action != 0) {
             $checkbox.css('display', 'inline');
+            $checkbox.prop('checked', false); // チェックを外す
         } else {
             $checkbox.css('display', 'none');
         }
