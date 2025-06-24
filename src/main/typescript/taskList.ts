@@ -2,15 +2,18 @@ import { selectedItems } from './batch';
 import {batchDeleteModal} from './modal';
 import $ from 'jquery';
 
-// チェックボックス表示切替
+// チェックボックスと実行ボタン表示切替
 $('#taskBatchAction').on('change', function () {
     const action = $(this).val();
     $('#result-table-body tr').each(function () {
+        const buton = $('#taskBatchActionButton');
         const $checkbox = $(this).find('.task-checkbox');
         if (action != 0) {
+            buton.css('display', 'inline');
             $checkbox.css('display', 'inline');
             $checkbox.prop('checked', false); // チェックを外す
         } else {
+            buton.css('display', 'none');
             $checkbox.css('display', 'none');
         }
     });
