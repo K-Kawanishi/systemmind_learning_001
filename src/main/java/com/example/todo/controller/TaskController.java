@@ -7,12 +7,13 @@ import com.example.todo.form.TaskForm;
 import com.example.todo.form.TaskSearchForm;
 import com.example.todo.service.TaskService;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -144,6 +145,18 @@ public class TaskController {
     public String delete(@PathVariable("id") long id) {
         // タスクIDに一致するタスクを削除
         taskService.delete(id);
+        return "redirect:/tasks";
+    }
+
+    /**
+     * タスクを一括削除する。
+     *
+     * @param ids 削除対象のタスクのIDリスト
+     *
+     */
+    @PostMapping("/deleteBatch")
+    public String deleteBatch(@RequestParam List<Long> ids) {
+        taskService.deleteBatch(ids);
         return "redirect:/tasks";
     }
 }
