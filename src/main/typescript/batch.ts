@@ -28,3 +28,27 @@ export function deleteBatch() {
       location.reload();
     });
 }
+
+export function updateBatch() {
+    const ids = selectedItems();
+    const status = $("#status").val();
+    const priority = $("#priority").val();
+    if (ids.length === 0) {
+        alert("タスクが選択されていません。");
+        return ;
+    }
+
+    return $.ajax( {
+        url: "/tasks/updateBatch",
+        type: "post",
+        data: $.param({ids : ids,status : status, priority : priority},true)
+    })
+    .done(function (param) {
+      // 通信成功時の処理
+    }).fail(function () {
+      // 通信失敗時の処理
+    }).always(function () {
+      // 成功や失敗にかかわらず常に実行する処理
+      location.reload();
+    });
+}

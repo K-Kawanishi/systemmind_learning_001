@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -157,6 +158,21 @@ public class TaskController {
     @PostMapping("/deleteBatch")
     public String deleteBatch(@RequestParam List<Long> ids) {
         taskService.deleteBatch(ids);
+        return "redirect:/tasks";
+    }
+
+    @PostMapping("/updateBatch")
+    public String updateBatch(@RequestParam(value = "ids") List<Long> ids,
+                              @RequestParam(value = "priority")String priority,
+                              @RequestParam(value = "status") String status) {
+    if(status != null && Objects.equals(priority, "")){
+        taskService.updateStatus(ids, status);
+    } else if (priority != null && Objects.equals(status, "")) {
+        taskService.updatePriority(ids, priority);}
+    else {
+        taskService.updateStatus(ids, status);
+        taskService.updatePriority(ids, priority);
+    }
         return "redirect:/tasks";
     }
 }

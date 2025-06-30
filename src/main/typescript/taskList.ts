@@ -1,5 +1,5 @@
 import { selectedItems } from './batch';
-import {batchDeleteModal} from './modal';
+import {batchDeleteModal, batchUpdateModal} from './modal';
 import $ from 'jquery';
 
 // チェックボックスと実行ボタン表示切替
@@ -31,7 +31,7 @@ $('#taskBatchActionButton').on('click', function () {
             batchDeleteModal();
             break;
         case '2': // 更新
-            alert('更新機能はまだ実装されていません。');
+            batchUpdateModal();
             break;
     }
 });

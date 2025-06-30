@@ -82,4 +82,12 @@ public class TaskService {
             taskRepository.delete(id);
         }
     }
+
+    public void updateStatus(List<Long> ids, String status) {
+        taskRepository.updateStatus(ids, status);
+    }
+
+    public void updatePriority(List<Long> ids, String priority) {
+        taskRepository.updatePriority(ids, priority);
+    }
 }
