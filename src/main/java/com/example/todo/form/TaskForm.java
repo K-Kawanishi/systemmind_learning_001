@@ -12,9 +12,9 @@ import jakarta.validation.constraints.Size;
  * バリデーションを含むフィールドとエンティティ変換メソッドを提供します。
  */
 public record TaskForm (
-        @NotBlank
-        @Size(max = 256 , message = "概要は256文字以内で入力してください")
+//        @NotBlank
         String summary,
+        @Size(max = 256 , message = "概要は256文字以内で入力してください")
         String description,
         @NotBlank
         @Pattern( regexp = "TODO|DOING|DONE" , message = "ステータスはTODO, DOING, DONEのいずれかを指定してください")

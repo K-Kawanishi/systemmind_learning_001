@@ -146,4 +146,69 @@ public class TaskController {
         taskService.delete(id);
         return "redirect:/tasks";
     }
+
+    /**
+     * 一括削除処理
+     * @param ids 削除対象のタスクIDリスト
+     * @return ステータスのみ返却（Ajax用）
+     */
+    @PostMapping("/batch-delete")
+    @ResponseBody
+    public void batchDelete(@RequestParam("ids") java.util.List<Long> ids) {
+        taskService.deleteByIds(ids);
+    }
+
+    /**
+     * 一括更新画面を表示する。
+     * @param ids 対象タスクID（カンマ区切り）
+     * @param model ビューに渡すデータ
+     * @return 一括更新画面
+     */
+    @GetMapping("/batch-edit")
+    public String showBatchEdit(@RequestParam("ids") String ids, Model model) {
+        model.addAttribute("ids", ids);
+        // TaskFormレコードの必須フィールドに初期値をセット
+        model.addAttribute("taskForm", new TaskForm("", "", "", ""));
+        model.addAttribute("mode", "BATCH_EDIT");
+        return "tasks/batch-edit";
+    }
+
+    /**
+     * 一括更新を実行する。
+     * @param ids 対象タスクID（カンマ区切り）
+     * @param form 入力値
+     * @param bindingResult バリデーション結果
+     * @param model ビューに渡すデータ
+     * @return 一覧画面へリダイレクト
+     */
+    @PostMapping("/batch-edit")
+    public String batchEdit(@RequestParam("ids") String ids,
+                           @Validated @ModelAttribute TaskForm form,
+                           BindingResult bindingResult,
+                           Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("ids", ids);
+            model.addAttribute("mode", "BATCH_EDIT");
+            return "tasks/batch-edit";
+        }
+        // IDごとにsummary/descriptionは既存値、status/priorityはフォーム値で更新
+        for (String idStr : ids.split(",")) {
+            try {
+                var id = Long.parseLong(idStr); // IDを数値に変換
+                var Byid = taskService.findById(id); // IDに基づいてタスクを取得
+                if (Byid.isPresent()) {
+                    var entity = Byid.get();
+                    var updated = new com.example.todo.entity.TaskEntity(
+                        id,
+                        entity.summary(), // 既存のsummary
+                        entity.description(), // 既存のdescription
+                        com.example.todo.entity.TaskStatus.valueOf(form.status()), // フォームからのstatus
+                        com.example.todo.entity.TaskPriority.valueOf(form.priority()) // フォームからのpriority
+                    );
+                    taskService.update(updated);
+                }
+            } catch (NumberFormatException ignored) {}
+        }
+        return "redirect:/tasks";
+    }
 }

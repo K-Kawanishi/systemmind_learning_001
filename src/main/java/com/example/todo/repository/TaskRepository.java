@@ -90,4 +90,18 @@ public interface TaskRepository {
      */
     @Delete("DELETE FROM tasks WHERE id = #{id};")
     void delete(@Param("id") long id);
+
+    /**
+     * 複数IDのタスクを一括削除します。
+     * @param ids 削除するタスクIDリスト
+     */
+    @Delete({
+        "<script>",
+        "DELETE FROM tasks WHERE id IN",
+        "<foreach collection='ids' item='id' open='(' separator=',' close=')'>",
+        "#{id}",
+        "</foreach>",
+        "</script>"
+    })
+    void deleteByIds(@Param("ids") List<Long> ids);
 }
