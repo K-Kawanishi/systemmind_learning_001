@@ -3,23 +3,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     const selectAll = document.getElementById('selectAll');
     const checkboxes = document.querySelectorAll('.task-checkbox');
-    const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
     const bulkActionSelect = document.getElementById('bulkActionSelect');
     const bulkActionBtn = document.getElementById('bulkActionBtn');
-
-    // 全選択チェックボックス
-    selectAll.addEventListener('change', function() {
-        checkboxes.forEach(cb => cb.checked = selectAll.checked);
-        toggleBulkActionBtn();
-    });
-
-    // 個別チェックボックス
-    checkboxes.forEach(cb => {
-        cb.addEventListener('change', function() {
-            selectAll.checked = [...checkboxes].every(cb => cb.checked);
-            toggleBulkActionBtn();
-        });
-    });
 
     // プルダウンとチェックボックスの状態でボタン有効化
     function toggleBulkActionBtn() {
@@ -27,8 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const actionSelected = bulkActionSelect.value !== '';
         bulkActionBtn.disabled = !(anyChecked && actionSelected);
     }
-
-    bulkActionSelect.addEventListener('change', toggleBulkActionBtn);
 
     // チェックボックス列の表示制御
     function setCheckboxColumnVisible(visible) {
@@ -53,18 +36,34 @@ document.addEventListener('DOMContentLoaded', function() {
         if (selectAll) {
             selectAll.checked = false;
             selectAll.onchange = function() {
-                document.querySelectorAll('.task-checkbox').forEach(cb => cb.checked = selectAll.checked);
+                checkboxes.forEach(cb => cb.checked = selectAll.checked);
                 toggleBulkActionBtn();
             };
         }
         checkboxes.forEach(cb => {
             cb.checked = false;
             cb.onchange = function() {
-                if (selectAll) selectAll.checked = [...document.querySelectorAll('.task-checkbox')].every(cb => cb.checked);
+                if (selectAll) selectAll.checked = [...checkboxes].every(cb => cb.checked);
                 toggleBulkActionBtn();
             };
         });
         toggleBulkActionBtn();
+    });
+
+    // 全選択チェックボックス
+    if (selectAll) {
+        selectAll.addEventListener('change', function() {
+            checkboxes.forEach(cb => cb.checked = selectAll.checked);
+            toggleBulkActionBtn();
+        });
+    }
+
+    // 個別チェックボックス
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', function() {
+            if (selectAll) selectAll.checked = [...checkboxes].every(cb => cb.checked);
+            toggleBulkActionBtn();
+        });
     });
 
     // 実行ボタン押下
@@ -89,4 +88,3 @@ document.addEventListener('DOMContentLoaded', function() {
         // 今後一括更新など追加可能
     });
 });
-
