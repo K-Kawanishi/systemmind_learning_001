@@ -32,13 +32,10 @@
                         <label class="form-label">ステータス</label>
                     </div>
                     <div class="btn-group">
-                        <!-- TODOステータスのチェックボックス -->
                         <input class="btn-check" type="checkbox" id="statusTodo" name="status" value="TODO" th:checked="*{isChecked('TODO')}">
                         <label class="btn btn-outline-primary" for="statusTodo">TODO</label>
-                        <!-- DOINGステータスのチェックボックス -->
                         <input class="btn-check" type="checkbox" id="statusDoing" name="status" value="DOING" th:checked="*{isChecked('DOING')}">
                         <label class="btn btn-outline-primary" for="statusDoing">DOING</label>
-                        <!-- DONEステータスのチェックボックス -->
                         <input class="btn-check" type="checkbox" id="statusDone" name="status" value="DONE" th:checked="*{isChecked('DONE')}">
                         <label class="btn btn-outline-primary" for="statusDone">DONE</label>
                     </div>
@@ -62,10 +59,20 @@
         </div>
     </div>
     <div>
+        <div class="mb-2">
+            <!-- 一括操作プルダウンと実行ボタン -->
+            <select id="bulkActionSelect" class="form-select d-inline-block w-auto">
+                <option value="">一括操作</option>
+                <option value="delete">一括削除</option>
+                <!-- 今後ここに一括更新など追加可能 -->
+            </select>
+            <button id="bulkActionBtn" class="btn btn-primary" disabled>実行</button>
+        </div>
         <!-- タスク一覧テーブル -->
         <table class="table">
             <thead>
             <tr>
+                <th class="checkbox-col" style="display:none;"><input type="checkbox" id="selectAll"></th>
                 <th>ID</th>
                 <th>概要</th>
                 <th>ステータス</th>
@@ -73,29 +80,20 @@
             </tr>
             </thead>
             <tbody>
-            <!-- タスクリストをループして表示 -->
             <tr th:each="task : ${taskList}">
-                <!-- タスクID -->
+                <td class="checkbox-col" style="display:none;"><input type="checkbox" class="task-checkbox" th:value="${task.id}"></td>
                 <td><a th:href="@{/tasks/{id}(id=${task.id})}" th:text="'#' + ${task.id}"></a></td>
-                <!-- タスク概要 -->
                 <td><a th:href="@{/tasks/{id}(id=${task.id})}" th:text="${task.summary}"></a></td>
-                <!-- タスクステータス -->
                 <td th:text="${task.status}"></td>
-                <!-- タスク優先度 -->
                 <td th:text="${task.priority}"
-                    th:classappend="${task.priority} == '高' ? 'text-danger' : (${task.priority} == '中' ? 'text-warning' : 'text-secondary')">
+                    th:classappend="${task.priority} == '高' ? 'text-danger' : (${task.priority} == '中' ? 'text-warning' : '') + (${task.priority} == '低' ? 'text-secondary' : '')">
                 </td>
-                <style>
-                    .text-danger { color: red; }
-                    .text-warning { color: orange; }
-                    .text-secondary { color: gray; }
-                </style>
             </tr>
             </tbody>
         </table>
     </div>
 </section>
+<script src="/js/task-list.js"></script>
 </body>
 </html>
-
 
