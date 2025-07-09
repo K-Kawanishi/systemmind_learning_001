@@ -41,7 +41,9 @@
             <span th:case="'NORMAL'" class="badge bg-warning">中</span>
             <span th:case="'LOW'" class="badge bg-secondary">低</span>
         </p>
+        <p>担当者：<span th:text="*{assignee}"></span></p>
         <pre th:text="*{description}"></pre>
+
     </div>
 </section>
 </body>

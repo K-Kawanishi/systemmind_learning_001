@@ -85,6 +85,7 @@
                 <th>内容</th>
                 <th>ステータス</th>
                 <th>優先度</th>
+                <th>担当者</th>
             </tr>
             </thead>
             <tbody>
@@ -107,6 +108,8 @@
                     <span th:case="'NORMAL'" class="badge bg-warning">中</span>
                     <span th:case="'LOW'" class="badge bg-secondary">低</span>
                 </td>
+                <!-- 担当者 -->
+                <td th:text="*{assignee}"></td>
             </tr>
             </tbody>
         </table>
