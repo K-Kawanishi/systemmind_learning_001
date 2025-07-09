@@ -7,8 +7,6 @@ import com.example.todo.form.TaskForm;
 import com.example.todo.form.TaskSearchForm;
 import com.example.todo.service.TaskService;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -151,7 +149,6 @@ public class TaskController {
     /**
      * 一括削除処理
      * @param ids 削除対象のタスクIDリスト
-     * @return ステータスのみ返却（Ajax用）
      */
     @PostMapping("/batch-delete")
     @ResponseBody
