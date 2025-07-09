@@ -24,6 +24,10 @@ export function batchUpdateModal() {
 
     //初期状態では非表示
     const statusElem = document.getElementById('status');
+    const Btn = document.getElementById('updateButton');
+    if(Btn){
+        Btn.style.display = 'none';
+        }
     if (statusElem) {
         statusElem.style.display = 'none';
     }
@@ -33,18 +37,33 @@ export function batchUpdateModal() {
     }
 
 
-    document.getElementById('statusCheckbox')?.addEventListener('change', function(this: HTMLInputElement) {
-        const statusElem = document.getElementById('status');
-        if (statusElem) {
-            statusElem.style.display = this.checked ? 'inline' : 'none';
-        }
-    });
-    document.getElementById('priorityCheckbox')?.addEventListener('change', function(this: HTMLInputElement) {
-        const priorityElem = document.getElementById('priority');
-        if (priorityElem) {
-            priorityElem.style.display = this.checked ? 'inline' : 'none';
-        }
-    });
+    function handleCheckboxToggle(
+        checkboxId: string,
+        targetElementId: string
+    ) {
+        const checkbox = document.getElementById(checkboxId) as HTMLInputElement | null;
+
+        checkbox?.addEventListener('change', function () {
+            const targetElem = document.getElementById(targetElementId);
+            const btn = document.getElementById('updateButton');
+
+            if (targetElem) {
+                targetElem.style.display = this.checked ? 'inline' : 'none';
+            }
+
+            const statusChecked = (document.getElementById('statusCheckbox') as HTMLInputElement)?.checked;
+            const priorityChecked = (document.getElementById('priorityCheckbox') as HTMLInputElement)?.checked;
+
+            if (btn) {
+                btn.style.display = (statusChecked || priorityChecked) ? 'inline' : 'none';
+            }
+        });
+    }
+
+    handleCheckboxToggle('statusCheckbox', 'status');
+    handleCheckboxToggle('priorityCheckbox', 'priority');
+
+
 
     $('#updateButton').off('click').on('click', function () {
         updateBatch();
