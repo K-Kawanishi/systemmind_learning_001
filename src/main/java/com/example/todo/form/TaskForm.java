@@ -14,6 +14,7 @@ public record TaskForm (
         @NotBlank
         @Size(max = 256 , message = "概要は256文字以内で入力してください")
         String summary,
+        @Size(max = 1000, message = "詳細は1000文字以内で入力してください")
         String description,
         @NotBlank
         @Pattern( regexp = "TODO|DOING|DONE" , message = "ステータスはTODO, DOING, DONEのいずれかを指定してください")

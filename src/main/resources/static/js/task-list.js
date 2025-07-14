@@ -69,6 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // 実行ボタン押下
     bulkActionBtn.addEventListener('click', function() {
         const action = bulkActionSelect.value;
+        // プルダウン選択時の最新のチェックボックスを取得
+        const checkboxes = document.querySelectorAll('.task-checkbox');
         const ids = [...checkboxes].filter(cb => cb.checked).map(cb => cb.value);
         if (action === 'delete') {
             if (!confirm('選択したタスクを削除しますか？')) return;
