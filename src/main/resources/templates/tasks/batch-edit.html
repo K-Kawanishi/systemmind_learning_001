@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <title>タスク一括更新</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div>
+        <form th:action="@{/tasks/batch-edit}" method="post" th:object="${taskForm}">
+            <input type="hidden" name="ids" th:value="${ids}" />
+            <!-- 概要入力フィールド -->　
+<!--            <div class="form-group mt-3">-->
+<!--                <label for="summaryInput" class="form-label">概要</label>-->
+<!--                <input type="text" id="summaryInput" th:field="*{summary}" class="form-control" th:errorclass="is-invalid"-->
+<!--                       placeholder="タイトルを入力してください" readonly/>-->
+<!--                <span th:errors="*{summary}" class="invalid-feedback"></span>-->
+<!--            </div>-->
+            <!-- 詳細入力フィールド -->
+<!--            <div class="form-group mt-3">-->
+<!--                <label for="descriptionInput" class="form-label">詳細</label>-->
+<!--                <textarea id="descriptionInput" th:field="*{description}" class="form-control"  th:errorclass="is-invalid" rows="10"-->
+<!--                          placeholder="概要は256文字以内で入力してください"></textarea>-->
+<!--                <span th:errors="*{description}" class="invalid-feedback"></span>-->
+<!--            </div>-->
+            <!-- ステータス選択フィールド -->
+            <div class="form-group mt-3">
+                <label for="statusInput" class="form-label">ステータス</label>  <!--ステータスは一括更新のため、全てのタスクで同じ値を設定します-->
+                <select id="statusInput" th:field="*{status}" class="form-control"  th:errorclass="is-invalid"> <!--ステータスは一括更新のため、全てのタスクで同じ値を設定します-->
+                    <option value="">プルダウンから入力してください</option>
+                    <option value="TODO">TODO</option>
+                    <option value="DOING">DOING</option>
+                    <option value="DONE">DONE</option>
+                </select>
+                <span th:errors="*{status}" class="invalid-feedback"></span>
+            </div>
+            <!-- 優先度入力フィールド -->
+            <div class="form-group mt-3">
+                <label for="priorityInput" class="form-label">優先度</label>
+                <select id="priorityInput" th:field="*{priority}" class="form-control" th:errorclass="is-invalid">
+                    <option value="">プルダウンから入力してください</option>
+                    <option value="HIGH">高</option>
+                    <option value="NORMAL">中</option>
+                    <option value="LOW">低</option>
+                </select>
+                <span th:errors="*{priority}" class="invalid-feedback"></span>
+            </div>
+            <!-- ボタン: 一括更新と戻る -->
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">一括更新</button>
+                <a th:href="@{/tasks}" class="btn btn-secondary">戻る</a>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>
