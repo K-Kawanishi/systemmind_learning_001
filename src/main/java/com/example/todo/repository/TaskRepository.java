@@ -23,8 +23,16 @@ public interface TaskRepository {
      */
     @Select("""
             <script>
-              SELECT *
-              FROM tasks
+              SELECT
+                t.id,
+                t.summary,
+                t.description,
+                t.status,
+                t.priority,
+                t.operator_id AS operator_id,
+                o.name AS operator_name
+              FROM tasks t
+              LEFT JOIN operators o ON t.operator_id = o.id
               <where>
                 <if test='condition.summary != null and !condition.summary.isBlank()'>
                   summary LIKE CONCAT('%', #{condition.summary}, '%')
@@ -52,7 +60,12 @@ public interface TaskRepository {
      * @param taskId タスクのID
      * @return 該当するタスクのOptional
      */
-    @Select("SELECT * FROM tasks WHERE id = #{taskId};")
+    @Select("SELECT t.id, t.summary, t.description, t.status, t.priority, " +
+                    "t.operator_id AS operator_id, " +
+                    "o.name AS operator_name " +
+                    "FROM tasks t " +
+                    "LEFT JOIN operators o ON t.operator_id = o.id " +
+                    "WHERE t.id = #{taskId};")
     Optional<TaskEntity> selectById(@Param("taskId") long taskId);
 
     /**
@@ -77,7 +90,8 @@ public interface TaskRepository {
             summary     = #{task.summary},
             description = #{task.description},
             status      = #{task.status},
-            priority    = #{task.priority}
+            priority    = #{task.priority},
+            operator_id = #{task.operatorId}
         WHERE
             id = #{task.id};
         """)

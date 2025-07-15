@@ -21,7 +21,8 @@ public record TaskForm (
         String status,
         @NotBlank
         @Pattern( regexp = "HIGH|MEDIUM|LOW" , message = "優先度はHIGH, MEDIUM, LOWのいずれかを指定してください")
-        String priority
+        String priority,
+        Long operatorId
 ){
 
     /**
@@ -31,7 +32,7 @@ public record TaskForm (
      * @return 生成されたTaskForm
      */
     public static Object fromEntity(TaskEntity taskEntity) {
-        return new TaskForm(taskEntity.summary(), taskEntity.description(), taskEntity.status().name(), taskEntity.priority().name());
+        return new TaskForm(taskEntity.summary(), taskEntity.description(), taskEntity.status().name(), taskEntity.priority().name(), taskEntity.operatorId());
     }
 
     /**
@@ -41,7 +42,7 @@ public record TaskForm (
      * @return 変換されたTaskEntity
      */
     public TaskEntity toEntity() {
-        return new TaskEntity(null, summary(), description(), TaskStatus.valueOf(status()), TaskPriority.valueOf(priority()));
+        return new TaskEntity(null, summary(), description(), TaskStatus.valueOf(status()), TaskPriority.valueOf(priority()), operatorId(), null);
     }
 
     /**
@@ -52,6 +53,6 @@ public record TaskForm (
      * @return 変換されたTaskEntity
      */
     public TaskEntity toEntity(Long id) {
-        return new TaskEntity(id, summary(), description(), TaskStatus.valueOf(status()), TaskPriority.valueOf(priority()));
+        return new TaskEntity(id, summary(), description(), TaskStatus.valueOf(status()), TaskPriority.valueOf(priority()), operatorId(), null);
     }
 }

@@ -56,6 +56,12 @@
                 </select>
                 <span th:errors="*{priority}" class="invalid-feedback"></span>
             </div>
+            <!-- 担当者選択フィールド -->
+            <div class="form-group mt-3">
+                <label for="operatorInput" class="form-label">担当者</label>
+                <select id="operatorInput" th:field="*{operatorId}" class="form-control"  th:errorclass="is-invalid">
+                    <option th:value="${operatorId == null} ? '選択してください' : *{operatorName}" ></option>
+                    <option th:each="operator : ${operators}" th:value="${operator.id}" th:text="${operator.name}"></option>
             <!-- ボタン: 作成/編集と戻る -->
             <div class="mt-3">
                 <button type="submit" class="btn btn-primary" th:text="${mode == 'CREATE'} ? '作成' : '編集'"></button>

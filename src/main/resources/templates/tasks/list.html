@@ -83,6 +83,7 @@
                 <th>概要</th>
                 <th>ステータス</th>
                 <th>優先度</th>
+                <th>担当者</th>
             </tr>
             </thead>
             <tbody id="result-table-body">
@@ -104,6 +105,8 @@
                     <span th:case="'MEDIUM'" class="badge bg-warning">中</span>
                     <span th:case="'LOW'" class="badge bg-secondary">低</span>
                 </td>
+                <!-- 担当者名 -->
+                <td th:text="*{operatorName}"></td>
             </tr>
             </tbody>
         </table>

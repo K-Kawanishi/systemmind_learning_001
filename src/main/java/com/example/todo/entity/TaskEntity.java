@@ -14,6 +14,8 @@ public record TaskEntity(
         String summary,
         String description,
         TaskStatus status,
-        TaskPriority priority
+        TaskPriority priority,
+        Long operatorId,
+        String operatorName
 ) {
 }
