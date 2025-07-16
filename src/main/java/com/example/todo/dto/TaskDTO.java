@@ -11,6 +11,7 @@ import com.example.todo.entity.TaskEntity;
  * @param summary     タスクの概要
  * @param description タスクの詳細説明
  * @param status      タスクの状態（例: "PENDING", "COMPLETED"）
+ * @param priority    タスクの優先度（例: "高", "低"）
  */
 public record TaskDTO(
         long id,
