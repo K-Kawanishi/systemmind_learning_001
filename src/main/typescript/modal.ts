@@ -44,8 +44,6 @@ export function batchUpdateModal() {
 
         checkbox?.addEventListener('change', function () {
             const targetElem = document.getElementById(targetElementId) as HTMLInputElement | null;
-            console.log('value:', targetElem?.value);
-            const btn = document.getElementById('updateButton');
 
             if (targetElem) {
                 // チェックボックスの状態に応じて要素の表示/非表示を切り替え
@@ -54,19 +52,14 @@ export function batchUpdateModal() {
                     targetElem.style.display = 'block';
                     targetElem.removeAttribute('disabled');
                     targetElem.addEventListener('change', () => {
-                       if (btn) {
-                           btn.style.display = targetElem.value.trim() !== '' ? 'inline' : 'none';
-                           }
+                        changeValue();
                        });
-
                 } else {
                     // チェックボックスがオフの場合、対象の要素を非表示にし、値をクリア
                     targetElem.style.display = 'none';
                     targetElem.setAttribute('disabled', 'true');
                     targetElem.value = '';
-                    if (btn) {
-                        btn.style.display = 'none'; // ボタンを非表示
-                    }
+                    checkBothUnchecked();
                 }
             }
         }
@@ -81,3 +74,26 @@ export function batchUpdateModal() {
         modal.hide();
     });
 }
+function checkBothUnchecked() {
+    const statusCheckbox = document.getElementById('statusCheckbox') as HTMLInputElement | null;
+    const priorityCheckbox = document.getElementById('priorityCheckbox') as HTMLInputElement | null;
+    const Btn = document.getElementById('updateButton');
+    if (Btn && statusCheckbox && priorityCheckbox) {
+        if (!statusCheckbox.checked && !priorityCheckbox.checked) {
+            Btn.style.display = 'none';
+        }
+    }
+}
+function  changeValue(){
+    const statusElem = document.getElementById('status') as HTMLInputElement | null;
+    const priorityElem = document.getElementById('priority') as HTMLInputElement | null;
+    const Btn = document.getElementById('updateButton');
+    if (statusElem && priorityElem && Btn) {
+        if (statusElem.value.trim() === '' && priorityElem.value.trim() === '') {
+            Btn.style.display = 'none';
+        } else {
+            Btn.style.display = 'inline';
+        }
+    }
+}
+
