@@ -25,17 +25,16 @@ export function batchUpdateModal() {
     //初期状態では非表示
     const statusElem = document.getElementById('status');
     const Btn = document.getElementById('updateButton');
+    const priorityElem = document.getElementById('priority');
     if(Btn){
         Btn.style.display = 'none';
         }
     if (statusElem) {
         statusElem.style.display = 'none';
     }
-    const priorityElem = document.getElementById('priority');
     if (priorityElem) {
         priorityElem.style.display = 'none';
     }
-
 
     function handleCheckboxToggle(
         checkboxId: string,
@@ -44,26 +43,38 @@ export function batchUpdateModal() {
         const checkbox = document.getElementById(checkboxId) as HTMLInputElement | null;
 
         checkbox?.addEventListener('change', function () {
-            const targetElem = document.getElementById(targetElementId);
+            const targetElem = document.getElementById(targetElementId) as HTMLInputElement | null;
+            console.log('value:', targetElem?.value);
             const btn = document.getElementById('updateButton');
 
             if (targetElem) {
-                targetElem.style.display = this.checked ? 'inline' : 'none';
-            }
+                // チェックボックスの状態に応じて要素の表示/非表示を切り替え
+                if (this.checked) {
+                    // チェックボックスがオンの場合、対象の要素を表示
+                    targetElem.style.display = 'block';
+                    targetElem.removeAttribute('disabled');
+                    targetElem.addEventListener('change', () => {
+                       if (btn) {
+                           btn.style.display = targetElem.value.trim() !== '' ? 'inline' : 'none';
+                           }
+                       });
 
-            const statusChecked = (document.getElementById('statusCheckbox') as HTMLInputElement)?.checked;
-            const priorityChecked = (document.getElementById('priorityCheckbox') as HTMLInputElement)?.checked;
-
-            if (btn) {
-                btn.style.display = (statusChecked || priorityChecked) ? 'inline' : 'none';
+                } else {
+                    // チェックボックスがオフの場合、対象の要素を非表示にし、値をクリア
+                    targetElem.style.display = 'none';
+                    targetElem.setAttribute('disabled', 'true');
+                    targetElem.value = '';
+                    if (btn) {
+                        btn.style.display = 'none'; // ボタンを非表示
+                    }
+                }
             }
-        });
+        }
+        );
     }
 
     handleCheckboxToggle('statusCheckbox', 'status');
     handleCheckboxToggle('priorityCheckbox', 'priority');
-
-
 
     $('#updateButton').off('click').on('click', function () {
         updateBatch();
