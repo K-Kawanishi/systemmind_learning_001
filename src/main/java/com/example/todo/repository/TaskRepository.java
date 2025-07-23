@@ -61,8 +61,8 @@ public interface TaskRepository {
      * @param newEntity 挿入するタスクのエンティティ
      */
     @Insert("""
-        INSERT INTO tasks (summary, description, status, priority, assignee)
-        VALUES (#{task.summary}, #{task.description}, #{task.status}, #{task.priority}, #{task.assignee});
+        INSERT INTO tasks (summary, description, status, priority)
+        VALUES (#{task.summary}, #{task.description}, #{task.status}, #{task.priority});
         """)
     void insert(@Param("task") TaskEntity newEntity);
 
@@ -77,8 +77,7 @@ public interface TaskRepository {
             summary     = #{task.summary},
             description = #{task.description},
             status      = #{task.status},
-            priority    = #{task.priority},
-            assignee    = #{task.assignee}
+            priority    = #{task.priority}
         WHERE
             id = #{task.id};
         """)

@@ -19,8 +19,7 @@ public record TaskForm (
         @NotBlank
         @Pattern( regexp = "TODO|DOING|DONE" , message = "ステータスはTODO, DOING, DONEのいずれかを指定してください")
         String status,
-        String priority,
-        String assignee // もしassigneeが必要なら追加
+        String priority
 ){
 
     /**
@@ -33,8 +32,7 @@ public record TaskForm (
         return new TaskForm(taskEntity.summary(),
                 taskEntity.description(),
                 taskEntity.status().name(),
-                taskEntity.priority().name(),
-                taskEntity.assignee() // もしassigneeが必要なら追加
+                taskEntity.priority().name()
         );
     }
 
@@ -50,8 +48,7 @@ public record TaskForm (
                 summary(),
                 description(),
                 TaskStatus.valueOf(status()),
-                TaskPriority.valueOf(priority()),
-                        assignee()
+                TaskPriority.valueOf(priority())
         );
     }
 
@@ -67,8 +64,7 @@ public record TaskForm (
                 summary(),
                 description(),
                 TaskStatus.valueOf(status()),
-                TaskPriority.valueOf(priority()),
-                        assignee()
+                TaskPriority.valueOf(priority())
         );
     }
 }

@@ -166,7 +166,7 @@ public class TaskController {
     public String showBatchEdit(@RequestParam("ids") String ids, Model model) {
         model.addAttribute("ids", ids);
         // TaskFormレコードの必須フィールドに初期値をセット
-        model.addAttribute("taskForm", new TaskForm("", "", "", "",""));
+        model.addAttribute("taskForm", new TaskForm("", "", "", ""));
         model.addAttribute("mode", "BATCH_EDIT");
         return "tasks/batch-edit";
     }
@@ -201,8 +201,7 @@ public class TaskController {
                         entity.summary(), // 既存のsummary
                         entity.description(), // 既存のdescription
                         com.example.todo.entity.TaskStatus.valueOf(form.status()), // フォームからのstatus
-                        com.example.todo.entity.TaskPriority.valueOf(form.priority()), // フォームからのpriority
-                            entity.assignee()
+                        com.example.todo.entity.TaskPriority.valueOf(form.priority()) // フォームからのpriority
                     );
                     taskService.update(updated);
                 }

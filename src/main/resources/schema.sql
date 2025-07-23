@@ -4,6 +4,13 @@ CREATE TABLE tasks
     summary VARCHAR(256) NOT NULL,
     description TEXT,
     status VARCHAR(256) NOT NULL,
-    priority VARCHAR(256),
-    assignee VARCHAR(256)
+    priority VARCHAR(256)
+);
+
+CREATE TABLE managers
+(
+    id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(256) NOT NULL,
+    age VARCHAR(3) NOT NULL,
+    gender VARCHAR(256) NOT NULL
 );

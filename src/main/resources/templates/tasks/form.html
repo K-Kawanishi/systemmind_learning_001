@@ -59,12 +59,6 @@
                 </select>
                 <span th:errors="*{priority}" class="invalid-feedback"></span>
             </div>
-            <!-- 担当者入力フィールド -->
-            <div class="form-group mt-3">
-                <label for="assigneeInput" class="form-label">担当者</label>
-                <input type="text" id="assigneeInput" th:field="*{assignee}" class="form-control" th:errorclass="is-invalid" placeholder="担当者名を入力してください"/>
-                <span th:errors="*{assignee}" class="invalid-feedback"></span>
-            </div>
             <!-- ボタン: 作成/編集と戻る -->
             <div class="mt-3">
                 <button type="submit" class="btn btn-primary" th:text="${mode == 'CREATE'} ? '作成' : '編集'"></button>

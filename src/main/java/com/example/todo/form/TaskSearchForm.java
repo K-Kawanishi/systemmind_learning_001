@@ -18,8 +18,7 @@ import java.util.stream.Stream;
 public record TaskSearchForm(
         String summary,
         List<String> status,
-        List<String> priority,
-        String assignee
+        List<String> priority
 ) {
     /**
      * フォームデータをエンティティに変換します。
@@ -37,7 +36,7 @@ public record TaskSearchForm(
                         .map(TaskPriority::valueOf)
                         .toList())
                 .orElse(List.of());
-        return new TaskSearchEntity(summary(), statusEntityList, priorityEntityList, null);
+        return new TaskSearchEntity(summary(), statusEntityList, priorityEntityList);
     }
 
     /**
