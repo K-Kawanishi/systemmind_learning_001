@@ -24,10 +24,10 @@
         <a th:href="@{/tasks/{id}/edit(id=${task.id})}" class="btn btn-primary">編集</a>
         <!-- 削除フォーム: タスクを削除するためのフォーム -->
         <form
-                th:action="@{/tasks/{id}(id=${task.id})}"
-                th:method="delete"
-                style="display: inline;"
-                onclick="return confirm('削除しますか？');"
+            th:action="@{/tasks/{id}/delete(id=${task.id})}"
+            method="post"
+            style="display: inline;"
+            onsubmit="return confirm('削除しますか？');"
         >
             <button type="submit" class="btn btn-danger">削除</button>
         </form>

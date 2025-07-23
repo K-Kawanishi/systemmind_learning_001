@@ -68,5 +68,15 @@
             </div>
 
             <!-- 送信ボタン -->
-            <div class="form-group
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <span th:text="${mode == 'CREATE'} ? '作成' : '更新'">作成</span>
+                </button>
+                <a href="/tasks" class="btn btn-secondary">戻る</a>
+            </div>
 
+        </form>
+    </div>
+</section>
+</body>
+</html>

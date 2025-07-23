@@ -116,6 +116,15 @@ public class TaskController {
     }
 
     /**
+     * タスクを削除する（個別削除）
+     */
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Long id) {
+        taskService.delete(id);
+        return "redirect:/tasks";
+    }
+
+    /**
      * 一括削除エンドポイント
      */
     @PostMapping("/bulk-delete")
