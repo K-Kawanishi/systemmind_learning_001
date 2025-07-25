@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "sourceMap": true,
+    "sourceRoot": ".ts",
+    "outDir": "./src/main/resources/public/js/",
+    "strict": true,
+    "lib": ["es2015.collection",
+      "dom",
+      "scriptHost"]
+  },
+  "include":  ["src/main/resources/static/ts/**/*.ts"],
+  "exclude": ["node_modules"]
+}
