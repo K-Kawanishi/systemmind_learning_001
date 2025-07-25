@@ -1,0 +1,27 @@
+{
+  "name": "systemmind_learning_001",
+  "version": "1.0.0",
+  "scripts": {
+    "tscbuild": "tsc -p ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/K-Kawanishi/systemmind_learning_001.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/K-Kawanishi/systemmind_learning_001/issues"
+  },
+  "homepage": "https://github.com/K-Kawanishi/systemmind_learning_001#readme",
+  "description": "",
+  "dependencies": {
+    "bootstrap": "^5.3.6",
+    "jquery": "^3.7.1",
+    "@types/bootstrap": "^5.2.10",
+    "@types/jquery": "^3.5.32",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.8.3"
+  }
+}
