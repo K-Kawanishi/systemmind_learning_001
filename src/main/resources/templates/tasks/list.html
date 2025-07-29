@@ -64,8 +64,23 @@
             <select id="bulkActionSelect" class="form-select d-inline-block w-auto">
                 <option value="">一括操作を選択</option>
                 <option value="delete">一括削除</option>
+                <option value="edit">一括編集</option>
                 <!-- 今後ここに一括更新など追加可能 -->
             </select>
+            <span id="bulkEditArea" style="display:none;">
+                <select id="bulkStatus" class="form-select d-inline-block w-auto" style="width:auto;">
+                    <option value="">ステータス選択</option>
+                    <option value="TODO">TODO</option>
+                    <option value="DOING">DOING</option>
+                    <option value="DONE">DONE</option>
+                </select>
+                <select id="bulkPriority" class="form-select d-inline-block w-auto" style="width:auto;">
+                    <option value="">優先度選択</option>
+                    <option value="高">高</option>
+                    <option value="中">中</option>
+                    <option value="低">低</option>
+                </select>
+            </span>
             <button id="bulkActionBtn" class="btn btn-primary" disabled>実行</button>
         </div>
         <!-- タスク一覧テーブル -->

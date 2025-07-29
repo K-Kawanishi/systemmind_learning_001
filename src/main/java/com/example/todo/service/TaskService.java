@@ -79,4 +79,16 @@ public class TaskService {
     public void deleteAllByIds(List<Long> ids) {
         taskRepository.deleteAllByIds(ids);
     }
+
+    /**
+     * 複数IDのタスクを一括編集します。
+     * @param ids 編集するタスクIDリスト
+     * @param status 新しいステータス
+     * @param priority 新しい優先度
+     */
+    @Transactional
+    public void bulkEdit(List<Integer> ids, String status, String priority) {
+        if ((status == null || status.isEmpty()) && (priority == null || priority.isEmpty())) return;
+        taskRepository.bulkEdit(ids, status, priority);
+    }
 }

@@ -141,4 +141,24 @@ public class TaskController {
             return ResponseEntity.internalServerError().body("削除に失敗しました");
         }
     }
+
+    /**
+     * タスク一括編集（ステータス・優先度）
+     */
+    @PostMapping("/bulk-edit")
+    @ResponseBody
+    public ResponseEntity<?> bulkEdit(@RequestBody Map<String, Object> body) {
+        List<Integer> ids = (List<Integer>) body.get("ids");
+        String status = (String) body.get("status");
+        String priority = (String) body.get("priority");
+        if ((status == null || status.isEmpty()) && (priority == null || priority.isEmpty())) {
+            return ResponseEntity.badRequest().body("ステータスまたは優先度を指定してください");
+        }
+        try {
+            taskService.bulkEdit(ids, status, priority);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("一括編集に失敗しました");
+        }
+    }
 }

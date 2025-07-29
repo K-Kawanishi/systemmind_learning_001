@@ -30,6 +30,13 @@ document.addEventListener('DOMContentLoaded', function() {
     bulkActionSelect.addEventListener('change', function() {
         const show = bulkActionSelect.value !== '';
         setCheckboxColumnVisible(show);
+        // 一括編集UIの表示制御
+        const bulkEditArea = document.getElementById('bulkEditArea');
+        if (bulkActionSelect.value === 'edit') {
+            bulkEditArea.style.display = '';
+        } else {
+            bulkEditArea.style.display = 'none';
+        }
         // チェックボックスの再取得とイベント再設定
         const checkboxes = document.querySelectorAll('.task-checkbox');
         const selectAll = document.getElementById('selectAll');
@@ -69,9 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // 実行ボタン押下
     bulkActionBtn.addEventListener('click', function() {
         const action = bulkActionSelect.value;
-        // プルダウン選択時の最新のチェックボックスを取得
         const checkboxes = document.querySelectorAll('.task-checkbox');
-        const ids = [...checkboxes].filter(cb => cb.checked).map(cb => Number(cb.value)); // 括弧抜け修正
+        const ids = [...checkboxes].filter(cb => cb.checked).map(cb => Number(cb.value));
         if (action === 'delete') {
             if (!confirm('選択したタスクを削除しますか？')) return;
             fetch('/tasks/bulk-delete', {
@@ -86,7 +92,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (res.ok) location.reload();
                 else alert('削除に失敗しました');
             });
+        } else if (action === 'edit') {
+            const status = document.getElementById('bulkStatus').value;
+            const priority = document.getElementById('bulkPriority').value;
+            if (!status && !priority) {
+                alert('ステータスまたは優先度を選択してください');
+                return;
+            }
+            if (!confirm('選択したタスクのステータス・優先度を一括で変更しますか？')) return;
+            fetch('/tasks/bulk-edit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({ ids, status, priority })
+            })
+            .then(res => {
+                if (res.ok) location.reload();
+                else alert('一括編集に失敗しました');
+            });
         }
-        // 今後一括更新など追加可能
     });
 });

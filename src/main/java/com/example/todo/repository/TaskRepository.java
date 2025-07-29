@@ -105,6 +105,24 @@ public interface TaskRepository {
         """)
     void deleteAllByIds(@Param("ids") List<Long> ids);
 
+    /**
+     * 複数IDのタスクを一括編集します（ステータス・優先度）。
+     */
+    @Update("""
+        <script>
+        UPDATE tasks
+        <set>
+            <if test='status != null and status != ""'>status = #{status},</if>
+            <if test='priority != null and priority != ""'>priority = #{priority},</if>
+        </set>
+        WHERE id IN
+        <foreach collection='ids' item='id' open='(' separator=',' close=')'>
+            #{id}
+        </foreach>
+        </script>
+        """)
+    void bulkEdit(@Param("ids") List<Integer> ids, @Param("status") String status, @Param("priority") String priority);
+
     // 優先度でソートするクエリ
     List<TaskEntity> findAllByOrderByPriorityDesc();
 }
