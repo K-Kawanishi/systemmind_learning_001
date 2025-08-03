@@ -36,6 +36,7 @@
         <!-- タスク情報: ID、概要、ステータス、説明を表示 -->
         <h2 th:text="'#' + *{id} + ' ' + *{summary}"></h2>
         <p th:text="*{status}"></p>
+        <p>担当者：</p>
         <p th:switch="*{priority}">優先度：
             <span th:case="'HIGH'" class="badge bg-danger">高</span>
             <span th:case="'NORMAL'" class="badge bg-warning">中</span>

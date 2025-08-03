@@ -30,10 +30,7 @@ public class TaskController {
     @GetMapping("")
     public String list(TaskSearchForm searchForm, Model model) {
         // 検索条件に一致するタスクを取得
-        var taskList = taskService.find(searchForm.toEntity())
-                .stream()
-                .map(TaskDTO::toDTO)
-                .toList();
+        var taskList = taskService.findWithManagerName(searchForm.toEntity());
         model.addAttribute("taskList", taskList);
         model.addAttribute("searchDTO", searchForm.toDTO());
         return "tasks/list";

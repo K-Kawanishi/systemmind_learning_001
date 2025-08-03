@@ -13,4 +13,3 @@ public interface ManagersRepository {
     @Select("SELECT * FROM managers WHERE id = #{id}")
     ManagersEntity findById(Long id);
 }
-

@@ -1,14 +1,19 @@
 package com.example.todo.service;
 
+import com.example.todo.dto.TaskDTO;
+import com.example.todo.entity.ManagersEntity;
 import com.example.todo.entity.TaskEntity;
 import com.example.todo.entity.TaskSearchEntity;
+import com.example.todo.repository.ManagersRepository;
 import com.example.todo.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 /**
@@ -20,6 +25,7 @@ import java.util.Optional;
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final ManagersRepository managersRepository;
 
     /**
      * 指定された検索条件に基づいてタスクを検索します。
@@ -79,5 +85,25 @@ public class TaskService {
     @Transactional
     public void deleteByIds(List<Long> ids) {
         taskRepository.deleteByIds(ids);
+    }
+
+    /**
+     * managersテーブルの全件取得
+     */
+    public List<ManagersEntity> findAllManagers() {
+        return managersRepository.findAll();
+    }
+
+    /**
+     * タスクと担当者名を紐付けたDTOリストを返す
+     */
+    public List<TaskDTO> findWithManagerName(TaskSearchEntity searchEntity) {
+        List<TaskEntity> tasks = taskRepository.select(searchEntity);
+        List<ManagersEntity> managers = managersRepository.findAll();
+        Map<Long, String> managerMap = managers.stream()
+                .collect(Collectors.toMap(ManagersEntity::id, ManagersEntity::name));
+        return tasks.stream()
+                .map(task -> TaskDTO.toDTO(task, managerMap.get(task.id())))
+                .collect(Collectors.toList());
     }
 }
