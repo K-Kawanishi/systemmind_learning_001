@@ -48,8 +48,7 @@ public record TaskForm (
                 summary(),
                 description(),
                 TaskStatus.valueOf(status()),
-                TaskPriority.valueOf(priority()),
-                null // managerIdは新規作成時はnull
+                TaskPriority.valueOf(priority())
         );
     }
 
@@ -65,8 +64,7 @@ public record TaskForm (
                 summary(),
                 description(),
                 TaskStatus.valueOf(status()),
-                TaskPriority.valueOf(priority()),
-                null // managerIdは編集画面では現状nullでOK
+                TaskPriority.valueOf(priority())
         );
     }
 }

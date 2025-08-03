@@ -8,14 +8,12 @@ package com.example.todo.entity;
  * @param description タスクの詳細説明
  * @param status タスクの現在の状態
  * @param priority タスクの優先度
- * @param managerId タスクの管理者の識別子
  */
 public record TaskEntity(
         Long id,
         String summary,
         String description,
         TaskStatus status,
-        TaskPriority priority,
-        Long managerId
+        TaskPriority priority
 ) {
 }

@@ -29,8 +29,11 @@ public class TaskController {
      */
     @GetMapping("")
     public String list(TaskSearchForm searchForm, Model model) {
-        // 検索条件に一致するタスクを取得（担当者名付き）
-        var taskList = taskService.findWithManager(searchForm.toEntity());
+        // 検索条件に一致するタスクを取得
+        var taskList = taskService.find(searchForm.toEntity())
+                .stream()
+                .map(TaskDTO::toDTO)
+                .toList();
         model.addAttribute("taskList", taskList);
         model.addAttribute("searchDTO", searchForm.toDTO());
         return "tasks/list";
@@ -46,9 +49,10 @@ public class TaskController {
      */
     @GetMapping("/{id}")
     public String showDetail(@PathVariable("id") long taskId, Model model) {
-        // タスクIDに一致するタスクを取得（担当者名付き）
-        var taskDTO = taskService.findByIdWithManager(taskId);
-        if (taskDTO == null) throw new TaskNotFoundException();
+        // タスクIDに一致するタスクを取得
+        var taskDTO = taskService.findById(taskId)
+                .map(TaskDTO::toDTO)
+                .orElseThrow(TaskNotFoundException::new);
         model.addAttribute("task", taskDTO);
         return "tasks/detail";
     }
@@ -197,8 +201,7 @@ public class TaskController {
                         entity.summary(), // 既存のsummary
                         entity.description(), // 既存のdescription
                         com.example.todo.entity.TaskStatus.valueOf(form.status()), // フォームからのstatus
-                        com.example.todo.entity.TaskPriority.valueOf(form.priority()), // フォームからのpriority
-                        entity.managerId() // 既存のmanagerIdを追加
+                        com.example.todo.entity.TaskPriority.valueOf(form.priority()) // フォームからのpriority
                     );
                     taskService.update(updated);
                 }
