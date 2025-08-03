@@ -3,9 +3,13 @@ package com.example.todo.service;
 import com.example.todo.entity.TaskEntity;
 import com.example.todo.entity.TaskSearchEntity;
 import com.example.todo.repository.TaskRepository;
+import com.example.todo.repository.ManagersRepository;
+import com.example.todo.entity.ManagersEntity;
+import com.example.todo.dto.TaskDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +24,7 @@ import java.util.Optional;
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final ManagersRepository managersRepository;
 
     /**
      * 指定された検索条件に基づいてタスクを検索します。
@@ -79,5 +84,39 @@ public class TaskService {
     @Transactional
     public void deleteByIds(List<Long> ids) {
         taskRepository.deleteByIds(ids);
+    }
+
+    /**
+     * 指定された検索条件に基づいてタスクと担当者名を紐付けて検索します。
+     *
+     * @param searchEntity 検索条件を含むエンティティ
+     * @return タスクと担当者名の紐付け結果のリスト
+     */
+    public List<TaskDTO> findWithManager(TaskSearchEntity searchEntity) {
+        var managers = managersRepository.findAll();
+        return taskRepository.select(searchEntity).stream()
+                .map(task -> {
+                    String managerName = managers.stream()
+                        .filter(m -> m.id().equals(task.managerId()))
+                        .map(ManagersEntity::name)
+                        .findFirst().orElse(null);
+                    return TaskDTO.toDTO(task, managerName);
+                })
+                .toList();
+    }
+
+    /**
+     * 指定されたIDのタスクを検索し、担当者名と共に返却します。
+     *
+     * @param taskId タスクのID
+     * @return タスクと担当者名を含むタスクDTO（タスクが存在しない場合はnull）
+     */
+    public TaskDTO findByIdWithManager(long taskId) {
+        var taskOpt = taskRepository.selectById(taskId);
+        if (taskOpt.isEmpty()) return null;
+        var task = taskOpt.get();
+        var manager = (task.managerId() != null) ? managersRepository.findById(task.managerId()) : null;
+        String managerName = (manager != null) ? manager.name() : null;
+        return TaskDTO.toDTO(task, managerName);
     }
 }
