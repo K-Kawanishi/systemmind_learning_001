@@ -46,9 +46,8 @@ public class TaskController {
      */
     @GetMapping("/{id}")
     public String showDetail(@PathVariable("id") long taskId, Model model) {
-        // タスクIDに一致するタスクを取得
-        var taskDTO = taskService.findById(taskId)
-                .map(TaskDTO::toDTO)
+        // タスクIDに一致するタスクを取得（担当者名も含めて取得）
+        var taskDTO = taskService.findWithManagerName(taskId)
                 .orElseThrow(TaskNotFoundException::new);
         model.addAttribute("task", taskDTO);
         return "tasks/detail";

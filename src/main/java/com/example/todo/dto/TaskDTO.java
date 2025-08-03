@@ -39,11 +39,6 @@ public record TaskDTO(
                 managerName
         );
     }
-    // 既存のtoDTO(TaskEntity)は非推奨に
-    @Deprecated
-    public static TaskDTO toDTO(TaskEntity entity) {
-        return toDTO(entity, null);
-    }
 }
 
 /*aa*/
