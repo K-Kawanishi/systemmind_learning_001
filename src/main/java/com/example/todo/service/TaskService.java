@@ -58,6 +58,17 @@ public class TaskService {
     }
 
     /**
+     * 新しいタスクを作成します。
+     *
+     * @param newEntity 作成するタスクのエンティティ
+     */
+    @Transactional
+    public void create2(TaskEntity newEntity, ManagersEntity managersEntity) {
+        taskRepository.insert2(newEntity, managersEntity.name());
+    }
+
+
+    /**
      * 指定されたタスクを更新します。
      *
      * @param entity 更新するタスクのエンティティ
