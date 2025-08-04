@@ -1,7 +1,6 @@
 package com.example.todo.controller;
 
 
-import com.example.todo.dto.TaskDTO;
 import com.example.todo.exception.TaskNotFoundException;
 import com.example.todo.form.TaskForm;
 import com.example.todo.form.TaskSearchForm;
@@ -30,7 +29,7 @@ public class TaskController {
     @GetMapping("")
     public String list(TaskSearchForm searchForm, Model model) {
         // 検索条件に一致するタスクを取得
-        var taskList = taskService.findWithManagerName(searchForm.toEntity());
+        var taskList = taskService.findManagerName(searchForm.toEntity());
         model.addAttribute("taskList", taskList);
         model.addAttribute("searchDTO", searchForm.toDTO());
         return "tasks/list";
@@ -47,7 +46,7 @@ public class TaskController {
     @GetMapping("/{id}")
     public String showDetail(@PathVariable("id") long taskId, Model model) {
         // タスクIDに一致するタスクを取得（担当者名も含めて取得）
-        var taskDTO = taskService.findWithManagerName(taskId)
+        var taskDTO = taskService.findManagerName(taskId)
                 .orElseThrow(TaskNotFoundException::new);
         model.addAttribute("task", taskDTO);
         return "tasks/detail";
@@ -162,7 +161,7 @@ public class TaskController {
     public String showBatchEdit(@RequestParam("ids") String ids, Model model) {
         model.addAttribute("ids", ids);
         // TaskFormレコードの必須フィールドに初期値をセット
-        model.addAttribute("taskForm", new TaskForm("", "", "", ""));
+        model.addAttribute("taskForm", new TaskForm("", "", "", "",null));
         model.addAttribute("mode", "BATCH_EDIT");
         return "tasks/batch-edit";
     }

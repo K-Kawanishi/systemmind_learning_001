@@ -97,7 +97,7 @@ public class TaskService {
     /**
      * タスクと担当者名を紐付けたDTOリストを返す
      */
-    public List<TaskDTO> findWithManagerName(TaskSearchEntity searchEntity) {
+    public List<TaskDTO> findManagerName(TaskSearchEntity searchEntity) {
         List<TaskEntity> tasks = taskRepository.select(searchEntity);
         List<ManagersEntity> managers = managersRepository.findAll();
         Map<Long, String> managerMap = managers.stream()
@@ -110,7 +110,7 @@ public class TaskService {
     /**
      * タスクIDで1件取得し、担当者名を付与したDTOを返す
      */
-    public Optional<TaskDTO> findWithManagerName(long taskId) {
+    public Optional<TaskDTO> findManagerName(long taskId) {
         Optional<TaskEntity> taskOpt = taskRepository.selectById(taskId);
         if (taskOpt.isEmpty()) return Optional.empty();
         List<ManagersEntity> managers = managersRepository.findAll();
