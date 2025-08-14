@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -159,4 +160,24 @@ public class TaskController {
         taskService.deleteBatch(ids);
         return "redirect:/tasks";
     }
+
+    /**
+     *タスクを一括更新する。
+     * @param ids 更新対象のタスクのIDリスト
+     */
+    @PostMapping("/updateBatch")
+    public String updateBatch(@RequestParam(value = "ids") List<Long> ids,
+                              @RequestParam(value = "priority")String priority,
+                              @RequestParam(value = "status") String status) {
+        if(!Objects.equals(status, "") && Objects.equals(priority, "")){
+            taskService.updateStatus(ids, status);
+        } else if (!Objects.equals(priority, "") && Objects.equals(status, "")) {
+            taskService.updatePriority(ids, priority);}
+        else {
+            taskService.updateStatus(ids, status);
+            taskService.updatePriority(ids, priority);
+        }
+        return "redirect:/tasks";
+    }
+
 }
