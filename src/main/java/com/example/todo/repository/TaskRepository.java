@@ -90,4 +90,28 @@ public interface TaskRepository {
      */
     @Delete("DELETE FROM tasks WHERE id = #{id};")
     void delete(@Param("id") long id);
+
+    @Update("""
+        <script>
+        UPDATE tasks
+        SET status = #{status}
+        WHERE id IN
+            <foreach collection='ids' item='id' separator=',' open='(' close=')'>
+                #{id}
+            </foreach>
+        </script>
+        """)
+    void updateStatus(@Param("ids") List<Long> ids,@Param("status") String status);
+
+    @Update("""
+        <script>
+        UPDATE tasks
+        SET priority = #{priority}
+        WHERE id IN
+            <foreach collection='ids' item='id' separator=',' open='(' close=')'>
+                #{id}
+            </foreach>
+        </script>
+        """)
+    void updatePriority(@Param("ids") List<Long> ids,@Param("priority") String priority);
 }
