@@ -56,7 +56,7 @@
                 </select>
                 <span th:errors="*{priority}" class="invalid-feedback"></span>
             </div>
-            <div id="pullDown" class="form-group mt-3" th:style="*{status == 'DONE'} ? 'display: none;' : ''">
+            <div class="form-group mt-3" >
                 <!-- 担当者検索フィールド -->
                 <label class="form-label" for="operatorId">担当者</label>
                 <select class="form-select" id="operatorId" th:field="*{operatorId}">
@@ -72,9 +72,6 @@
             </div>
         </form>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/tasks/form.js"></script>
 </section>
 </body>
 </html>
