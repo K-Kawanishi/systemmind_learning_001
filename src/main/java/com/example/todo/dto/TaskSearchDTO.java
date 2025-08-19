@@ -12,7 +12,8 @@ import java.util.Optional;
 public record TaskSearchDTO(
         String summary,
         List<String> statusList,
-        List<String> priorityList
+        List<String> priorityList,
+        long operatorId
 ) {
     /**
      * 指定されたステータスがステータスリストに含まれているかを確認します。

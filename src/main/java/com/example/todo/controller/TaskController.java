@@ -5,6 +5,7 @@ import com.example.todo.dto.TaskDTO;
 import com.example.todo.exception.TaskNotFoundException;
 import com.example.todo.form.TaskForm;
 import com.example.todo.form.TaskSearchForm;
+import com.example.todo.service.OperatorService;
 import com.example.todo.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import java.util.Objects;
 public class TaskController {
 
     private final TaskService taskService;
+    private final OperatorService operatorService;
 
     /**
      * タスク一覧画面を表示する。
@@ -37,7 +39,9 @@ public class TaskController {
                 .stream()
                 .map(TaskDTO::toDTO)
                 .toList();
+        var operatorUserList = operatorService.findAll();
         model.addAttribute("taskList", taskList);
+        model.addAttribute("operatorUserList", operatorUserList);
         model.addAttribute("searchDTO", searchForm.toDTO());
         return "tasks/list";
     }
@@ -69,6 +73,8 @@ public class TaskController {
      */
     @GetMapping("/create")
     public String showCreate(@ModelAttribute TaskForm form, Model model) {
+        var operatorUserList = operatorService.findAll();
+        model.addAttribute("operatorUserList", operatorUserList);
         model.addAttribute("mode", "CREATE");
         return "tasks/form";
     }
@@ -105,6 +111,8 @@ public class TaskController {
         var form = taskService.findById(id)
                 .map(TaskForm::fromEntity)
                 .orElseThrow(TaskNotFoundException::new);
+        var operatorUserList = operatorService.findAll();
+        model.addAttribute("operatorUserList", operatorUserList);
         model.addAttribute("taskForm", form);
         model.addAttribute("mode", "EDIT");
         return "tasks/form";
