@@ -23,8 +23,16 @@ public interface TaskRepository {
      */
     @Select("""
             <script>
-              SELECT *
-              FROM tasks
+              SELECT
+                t.id,
+                t.summary,
+                t.description,
+                t.status,
+                t.priority,
+                t.operator_id AS operator_id,
+                o.name AS operator_name
+              FROM tasks t
+              LEFT JOIN operator_users o ON t.operator_id = o.id
               <where>
                 <if test='condition.summary != null and !condition.summary.isBlank()'>
                   summary LIKE CONCAT('%', #{condition.summary}, '%')
@@ -41,6 +49,9 @@ public interface TaskRepository {
                         #{priority}
                       </foreach>
                 </if>
+                <if test='condition.operatorId > 0'>
+                  AND operator_id = #{condition.operatorId}
+                </if>
               </where>
             </script>
             """)
@@ -52,7 +63,12 @@ public interface TaskRepository {
      * @param taskId タスクのID
      * @return 該当するタスクのOptional
      */
-    @Select("SELECT * FROM tasks WHERE id = #{taskId};")
+    @Select("SELECT t.id, t.summary, t.description, t.status, t.priority, " +
+            "t.operator_id AS operator_id, " +
+            "o.name AS operator_name " +
+            "FROM tasks t " +
+            "LEFT JOIN operator_users o ON t.operator_id = o.id " +
+            "WHERE t.id = #{taskId};")
     Optional<TaskEntity> selectById(@Param("taskId") long taskId);
 
     /**
@@ -61,8 +77,8 @@ public interface TaskRepository {
      * @param newEntity 挿入するタスクのエンティティ
      */
     @Insert("""
-        INSERT INTO tasks (summary, description, status, priority)
-        VALUES (#{task.summary}, #{task.description}, #{task.status}, #{task.priority});
+        INSERT INTO tasks (summary, description, status, priority, operator_id)
+        VALUES (#{task.summary}, #{task.description}, #{task.status}, #{task.priority}, #{task.operatorId});
         """)
     void insert(@Param("task") TaskEntity newEntity);
 
@@ -77,7 +93,8 @@ public interface TaskRepository {
             summary     = #{task.summary},
             description = #{task.description},
             status      = #{task.status},
-            priority    = #{task.priority}
+            priority    = #{task.priority},
+            operator_id = #{task.operatorId}
         WHERE
             id = #{task.id};
         """)

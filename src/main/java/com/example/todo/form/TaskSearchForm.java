@@ -18,7 +18,8 @@ import java.util.Optional;
 public record TaskSearchForm(
         String summary,
         List<String> status,
-        List<String> priority
+        List<String> priority,
+        Long operatorId
 ) {
     /**
      * フォームデータをエンティティに変換します。
@@ -34,7 +35,7 @@ public record TaskSearchForm(
                 .map(priorityList -> priorityList.stream()
                         .map(TaskPriority::valueOf).toList())
                 .orElse(List.of());
-        return new TaskSearchEntity(summary(), statusEntityList, priorityEntityList);
+        return new TaskSearchEntity(summary(), statusEntityList, priorityEntityList, operatorId() == null ? 0L : operatorId());
     }
 
     /**
@@ -43,6 +44,6 @@ public record TaskSearchForm(
      * @return TaskSearchDTO オブジェクト
      */
     public TaskSearchDTO toDTO() {
-        return new TaskSearchDTO(summary(), status(), priority());
+        return new TaskSearchDTO(summary(), status(), priority(), operatorId() == null ? 0L : operatorId());
     }
 }
