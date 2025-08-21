@@ -115,7 +115,7 @@
                     <span th:case="'LOW'" class="badge bg-secondary">低</span>
                 </td>
                 <!-- 担当者名 -->
-                <td th:text="*{operatorName}"></td>
+                <td><a th:href="@{/operators/{id}(id=*{operatorId})}" th:text="*{operatorName}"></a></td>
             </tr>
             </tbody>
         </table>
