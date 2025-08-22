@@ -46,10 +46,7 @@
             <tbody id="result-table-body">
             <!-- タスクリストをループして表示 -->
             <tr th:each="task : ${taskList}" th:object="${task}">
-                <!-- タスクID -->
-                <!-- タスク選択用のチェックボックス -->
                 <td>
-                    <input type="checkbox" class="task-checkbox form-check-input" th:attr="data-n=*{id}" th:style="'display: none;'" />
                     <a th:href="@{/tasks/{id}(id=*{id})}" th:text="'#' + *{id}" class="task-id" ></a>
                 </td>
                 <!-- タスク概要 -->

@@ -137,6 +137,6 @@ public interface TaskRepository {
             "o.name AS operator_name " +
             "FROM tasks t " +
             "LEFT JOIN operator_users o ON t.operator_id = o.id " +
-            "WHERE t.id = #{operatorId};")
+            "WHERE t.operator_id = #{operatorId};")
     List<TaskEntity> selectListByOperatorId(@Param("operatorId") long operatorId);
 }
