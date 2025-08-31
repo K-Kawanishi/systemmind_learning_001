@@ -90,4 +90,8 @@ public class TaskService {
     public void updatePriority(List<Long> ids, String priority) {
         taskRepository.updatePriority(ids, priority);
     }
+
+    public List<TaskEntity> findByOperatorId(long operatorId) {
+       return taskRepository.selectListByOperatorId(operatorId);
+    }
 }

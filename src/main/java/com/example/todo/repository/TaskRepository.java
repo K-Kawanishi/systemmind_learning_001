@@ -131,4 +131,12 @@ public interface TaskRepository {
         </script>
         """)
     void updatePriority(@Param("ids") List<Long> ids,@Param("priority") String priority);
+
+    @Select("SELECT t.id, t.summary, t.description, t.status, t.priority, " +
+            "t.operator_id AS operator_id, " +
+            "o.name AS operator_name " +
+            "FROM tasks t " +
+            "LEFT JOIN operator_users o ON t.operator_id = o.id " +
+            "WHERE t.operator_id = #{operatorId};")
+    List<TaskEntity> selectListByOperatorId(@Param("operatorId") long operatorId);
 }

@@ -1,4 +1,4 @@
-package com.example.todo.form;
+package com.example.todo.form.tasks;
 
 import com.example.todo.entity.TaskEntity;
 import com.example.todo.entity.TaskPriority;

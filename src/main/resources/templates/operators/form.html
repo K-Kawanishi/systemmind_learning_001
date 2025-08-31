@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <title th:text="${mode == 'CREATE'} ? 'タスク作成' : 'タスク編集'"></title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div>
+        <form th:action="${mode == 'CREATE'} ? @{/operators/create} : @{/operators/{id}(id=${id})}"
+              th:method="${mode == 'CREATE'} ? post : put"
+              th:object="${operatorForm}">
+
+            <div class="form-group mt-3">
+                <label for="nameInput" class="form-label">氏名</label>
+                <input type="text" id="nameInput" th:field="*{name}" class="form-control" th:errorclass="is-invalid" required/>
+                <span th:errors="*{name}" class="invalid-feedback"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <label for="kanaInput" class="form-label">フリガナ</label>
+                <input type="text" id="kanaInput" th:field="*{kana}" class="form-control"  th:errorclass="is-invalid" />
+                <span th:errors="*{kana}" class="invalid-feedback"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <label for="emailInput" class="form-label">メール</label>
+                <input type="email" id="emailInput" th:field="*{email}" class="form-control" th:errorclass="is-invalid" required/>
+                <span th:errors="*{email}" class="invalid-feedback"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <label for="phoneNumberInput" class="form-label">電話番号</label>
+                <input type="text" id="phoneNumberInput" th:field="*{phoneNumber}" class="form-control" th:errorclass="is-invalid"/>
+                <span th:errors="*{phoneNumber}" class="invalid-feedback"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <label for="genderInput" class="form-label">性別</label>
+                <select id="genderInput" th:field="*{gender}" class="form-control"  th:errorclass="is-invalid" required>
+                    <option value="MALE">男性</option>
+                    <option value="FEMALE">女性</option>
+                    <option value="OTHER">その他</option>
+                </select>
+                <span th:errors="*{gender}" class="invalid-feedback"></span>
+            </div>
+            <!-- ボタン: 作成/編集と戻る -->
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary" th:text="${mode == 'CREATE'} ? '作成' : '編集'"></button>
+                <a th:href="${mode == 'CREATE'} ? @{/operators} : @{/operators/{id}(id=${id})}" class="btn btn-secondary">戻る</a>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

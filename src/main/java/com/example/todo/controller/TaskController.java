@@ -3,8 +3,8 @@ package com.example.todo.controller;
 
 import com.example.todo.dto.TaskDTO;
 import com.example.todo.exception.TaskNotFoundException;
-import com.example.todo.form.TaskForm;
-import com.example.todo.form.TaskSearchForm;
+import com.example.todo.form.tasks.TaskForm;
+import com.example.todo.form.tasks.TaskSearchForm;
 import com.example.todo.service.OperatorService;
 import com.example.todo.service.TaskService;
 import lombok.RequiredArgsConstructor;
