@@ -38,8 +38,10 @@
         <p th:text="*{status}"></p>
         <pre th:text="*{description}"></pre>
         <p th:text="*{priority}"></p>
+        <p><b>担当者：</b>
+          <span th:text="*{assignees != null and !assignees.isEmpty() ? assignees[0].name : '未設定'}"></span>
+        </p>
     </div>
 </section>
 </body>
 </html>
-

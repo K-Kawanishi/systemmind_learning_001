@@ -20,18 +20,28 @@ public record TaskForm (
         @Pattern( regexp = "TODO|DOING|DONE" , message = "ステータスはTODO, DOING, DONEのいずれかを指定してください")
         String status,
         @NotBlank(message = "優先度を選択してください")
-        String priority
+        String priority,
+        @NotBlank(message = "担当者を選択してください")
+        String assigneeId
 
 ){
-
     /**
      * TaskEntityからTaskFormを生成します。
      *
      * @param taskEntity タスクエンティティ
      * @return 生成されたTaskForm
      */
-    public static Object fromEntity(TaskEntity taskEntity) {
-        return new TaskForm(taskEntity.summary(), taskEntity.description(), taskEntity.status().name(), taskEntity.priority());
+    public static TaskForm fromEntity(TaskEntity taskEntity) {
+        String assigneeId = (taskEntity.getAssignees() != null && !taskEntity.getAssignees().isEmpty())
+            ? String.valueOf(taskEntity.getAssignees().get(0).getId())
+            : "";
+        return new TaskForm(
+            taskEntity.getSummary(),
+            taskEntity.getDescription(),
+            taskEntity.getStatus() != null ? taskEntity.getStatus().name() : null,
+            taskEntity.getPriority(),
+            assigneeId
+        );
     }
 
     /**
@@ -41,7 +51,7 @@ public record TaskForm (
      * @return 変換されたTaskEntity
      */
     public TaskEntity toEntity() {
-        return new TaskEntity(null, summary(), description(), TaskStatus.valueOf(status()), priority());
+        return new TaskEntity(null, summary, description, TaskStatus.valueOf(status), priority, null);
     }
 
     /**
@@ -52,6 +62,6 @@ public record TaskForm (
      * @return 変換されたTaskEntity
      */
     public TaskEntity toEntity(Long id) {
-        return new TaskEntity(id, summary(), description(), TaskStatus.valueOf(status()), priority());
+        return new TaskEntity(id, summary, description, TaskStatus.valueOf(status), priority, null);
     }
 }

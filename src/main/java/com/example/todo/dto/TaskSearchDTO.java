@@ -7,12 +7,13 @@ import java.util.Optional;
  * タスク検索用のデータ転送オブジェクト (DTO)。
  *
  * @param summary    タスクの概要またはタイトル
- * @param statusList フィルタリングに使用するステータスのリスト
+ * @param status フィルタリングに使用するステータスのリスト
+ * @param priority フィルタリングに使用する優先度のリスト
  */
 public record TaskSearchDTO(
         String summary,
-        List<String> statusList,
-        List<String> priorityList
+        List<String> status,
+        List<String> priority
 ) {
     /**
      * 指定されたステータスがステータスリストに含まれているかを確認します。
@@ -21,12 +22,12 @@ public record TaskSearchDTO(
      * @return ステータスがリストに含まれている場合はtrue、それ以外はfalse
      */
     public boolean isChecked(String status) {
-        return Optional.ofNullable(statusList())
+        return Optional.ofNullable(status())
                 .map(statusList -> statusList.contains(status))
                 .orElse(false);
     }
     public boolean isPriorityChecked(String priority) {
-        return Optional.ofNullable(priorityList())
+        return Optional.ofNullable(priority())
                 .map(list -> list.contains(priority))
                 .orElse(false);
     }

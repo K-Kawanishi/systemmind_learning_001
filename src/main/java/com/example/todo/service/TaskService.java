@@ -1,8 +1,12 @@
 package com.example.todo.service;
 
+import com.example.todo.entity.Assignee;
 import com.example.todo.entity.TaskEntity;
 import com.example.todo.entity.TaskSearchEntity;
+import com.example.todo.entity.TaskStatus;
 import com.example.todo.repository.TaskRepository;
+import com.example.todo.repository.TaskAssigneeRepository;
+import com.example.todo.repository.AssigneeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,85 +14,82 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-
-/**
- * タスクに関連するサービスクラス。
- * データベース操作を行うリポジトリを利用して、タスクの作成、更新、削除、検索を提供します。
- */
 @Service
 @RequiredArgsConstructor
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final TaskAssigneeRepository taskAssigneeRepository;
+    private final AssigneeRepository assigneeRepository;
 
-    /**
-     * 指定された検索条件に基づいてタスクを検索します。
-     *
-     * @param searchEntity 検索条件を含むエンティティ
-     * @return 検索結果のタスクリスト
-     */
     public List<TaskEntity> find(TaskSearchEntity searchEntity) {
-        return taskRepository.select(searchEntity);
+        // タスク一覧取得時も担当者リストをセットする
+        var tasks = taskRepository.select(searchEntity);
+        for (var task : tasks) {
+            var assignees = taskRepository.findAssigneesByTaskId(task.getId());
+            task.setAssignees(assignees);
+        }
+        return tasks;
     }
 
-    /**
-     * 指定されたIDのタスクを検索します。
-     *
-     * @param taskId タスクのID
-     * @return 検索結果のタスク（存在しない場合は空のOptional）
-     */
     public Optional<TaskEntity> findById(long taskId) {
-        return taskRepository.selectById(taskId);
+        // 担当者も含めて取得するメソッドを利用
+        TaskEntity entity = taskRepository.selectWithAssigneesById(taskId);
+        return Optional.ofNullable(entity);
     }
 
-    /**
-     * 新しいタスクを作成します。
-     *
-     * @param newEntity 作成するタスクのエンティティ
-     */
     @Transactional
-    public void create(TaskEntity newEntity) {
+    public void create(TaskEntity newEntity, List<Long> assigneeIds) {
         taskRepository.insert(newEntity);
+        // insert後にIDがセットされていることを保証
+        if (newEntity.getId() != null && assigneeIds != null) {
+            for (Long assigneeId : assigneeIds) {
+                taskAssigneeRepository.insert(newEntity.getId(), assigneeId);
+            }
+        }
     }
 
-    /**
-     * 指定されたタスクを更新します。
-     *
-     * @param entity 更新するタスクのエンティティ
-     */
     @Transactional
-    public void update(TaskEntity entity) {
+    public void update(TaskEntity entity, List<Long> assigneeIds) {
         taskRepository.update(entity);
+        taskAssigneeRepository.deleteByTaskId(entity.getId());
+        if (entity.getId() != null && assigneeIds != null) {
+            for (Long assigneeId : assigneeIds) {
+                taskAssigneeRepository.insert(entity.getId(), assigneeId);
+            }
+        }
     }
 
-    /**
-     * 指定されたIDのタスクを削除します。
-     *
-     * @param id 削除するタスクのID
-     */
     @Transactional
-    public void delete(long id) {
+    public void delete(Long id) {
+        taskAssigneeRepository.deleteByTaskId(id);
         taskRepository.delete(id);
     }
 
-    /**
-     * 複数IDのタスクを一括削除します。
-     * @param ids 削除するタスクIDリスト
-     */
     @Transactional
     public void deleteAllByIds(List<Long> ids) {
-        taskRepository.deleteAllByIds(ids);
+        for (Long id : ids) {
+            delete(id);
+        }
+    }
+
+    @Transactional
+    public void bulkEdit(List<Long> ids, String status, String priority, Long assigneeId) {
+        for (Long id : ids) {
+            Optional<TaskEntity> opt = findById(id);
+            if (opt.isPresent()) {
+                TaskEntity entity = opt.get();
+                if (status != null) entity.setStatus(TaskStatus.valueOf(status));
+                if (priority != null) entity.setPriority(priority);
+                update(entity, assigneeId != null ? List.of(assigneeId) : null);
+            }
+        }
     }
 
     /**
-     * 複数IDのタスクを一括編集します。
-     * @param ids 編集するタスクIDリスト
-     * @param status 新しいステータス
-     * @param priority 新しい優先度
+     * 指定したIDリストのタスクを全件取得
      */
-    @Transactional
-    public void bulkEdit(List<Integer> ids, String status, String priority) {
-        if ((status == null || status.isEmpty()) && (priority == null || priority.isEmpty())) return;
-        taskRepository.bulkEdit(ids, status, priority);
+    public List<TaskEntity> findAllByIds(List<Long> ids) {
+        return taskRepository.findAllByIds(ids);
     }
 }

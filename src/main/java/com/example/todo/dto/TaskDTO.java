@@ -12,13 +12,15 @@ import com.example.todo.entity.TaskEntity;
  * @param description タスクの詳細説明
  * @param status      タスクの状態（例: "PENDING", "COMPLETED"）
  * @param priority    タスクの優先度（例: "高", "低"）
+ * @param assigneeName 最初の担当者の名前
  */
 public record TaskDTO(
         long id,
         String summary,
         String description,
         String status,
-        String priority
+        String priority,
+        String assigneeName
 ) {
     /**
      * TaskEntityオブジェクトをTaskDTOに変換します。
@@ -27,14 +29,20 @@ public record TaskDTO(
      * @return TaskDTOオブジェクト
      */
     public static TaskDTO toDTO(TaskEntity entity) {
+        String assigneeName = null;
+        if (entity.getAssignees() != null && !entity.getAssignees().isEmpty()) {
+            assigneeName = entity.getAssignees().get(0).getName();
+        }
         return new TaskDTO(
-                entity.id(),
-                entity.summary(),
-                entity.description(),
-                entity.status().name(),
-                entity.priority()
+                entity.getId(),
+                entity.getSummary(),
+                entity.getDescription(),
+                entity.getStatus() != null ? entity.getStatus().name() : null,
+                entity.getPriority(),
+                assigneeName
         );
     }
 }
 
 /*aa*/
+

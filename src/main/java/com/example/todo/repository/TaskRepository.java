@@ -56,74 +56,64 @@ public interface TaskRepository {
     Optional<TaskEntity> selectById(@Param("taskId") long taskId);
 
     /**
-     * 新しいタスクをデータベースに挿入します。
-     *
-     * @param newEntity 挿入するタスクのエンティティ
+     * タスクと担当者を多対多で紐付けるため、タスク取得時に担当者リストも取得する。
      */
+    @Select("""
+        SELECT t.*, a.id AS assignee_id, a.name AS assignee_name
+        FROM tasks t
+        LEFT JOIN task_assignees ta ON t.id = ta.task_id
+        LEFT JOIN assignees a ON ta.assignee_id = a.id
+        WHERE t.id = #{taskId}
+        """)
+    @Results(id = "TaskWithAssignees", value = {
+        @Result(property = "id", column = "id"),
+        @Result(property = "summary", column = "summary"),
+        @Result(property = "description", column = "description"),
+        @Result(property = "status", column = "status"),
+        @Result(property = "priority", column = "priority"),
+        @Result(property = "assignees", javaType = java.util.List.class,
+            column = "id",
+            many = @Many(select = "com.example.todo.repository.TaskRepository.findAssigneesByTaskId"))
+    })
+    TaskEntity selectWithAssigneesById(@Param("taskId") long taskId);
+
+    @Select("""
+        SELECT a.id, a.name FROM assignees a
+        INNER JOIN task_assignees ta ON a.id = ta.assignee_id
+        WHERE ta.task_id = #{taskId}
+        """)
+    List<com.example.todo.entity.Assignee> findAssigneesByTaskId(@Param("taskId") long taskId);
+
     @Insert("""
         INSERT INTO tasks (summary, description, status, priority)
-        VALUES (#{task.summary}, #{task.description}, #{task.status}, #{task.priority});
+        VALUES (#{summary}, #{description}, #{status}, #{priority})
         """)
-    void insert(@Param("task") TaskEntity newEntity);
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insert(TaskEntity task);
 
-    /**
-     * タスクを更新します。
-     *
-     * @param entity 更新するタスクのエンティティ
-     */
     @Update("""
-        Update tasks
-        SET
-            summary     = #{task.summary},
-            description = #{task.description},
-            status      = #{task.status},
-            priority    = #{task.priority}
-        WHERE
-            id = #{task.id};
-        """)
-    void update(@Param("task") TaskEntity entity);
-
-    /**
-     * IDに基づいてタスクを削除します。
-     *
-     * @param id 削除するタスクのID
-     */
-    @Delete("DELETE FROM tasks WHERE id = #{id};")
-    void delete(@Param("id") long id);
-
-    /**
-     * 複数IDのタスクを一括削除します。
-     * @param ids 削除するタスクIDリスト
-     */
-    @Delete("""
-        <script>
-        DELETE FROM tasks WHERE id IN
-        <foreach collection='ids' item='id' open='(' separator=',' close=')'>
-            #{id}
-        </foreach>
-        </script>
-        """)
-    void deleteAllByIds(@Param("ids") List<Long> ids);
-
-    /**
-     * 複数IDのタスクを一括編集します（ステータス・優先度）。
-     */
-    @Update("""
-        <script>
         UPDATE tasks
-        <set>
-            <if test='status != null and status != ""'>status = #{status},</if>
-            <if test='priority != null and priority != ""'>priority = #{priority},</if>
-        </set>
-        WHERE id IN
-        <foreach collection='ids' item='id' open='(' separator=',' close=')'>
-            #{id}
-        </foreach>
-        </script>
+        SET summary = #{summary},
+            description = #{description},
+            status = #{status},
+            priority = #{priority}
+        WHERE id = #{id}
         """)
-    void bulkEdit(@Param("ids") List<Integer> ids, @Param("status") String status, @Param("priority") String priority);
+    void update(TaskEntity task);
 
-    // 優先度でソートするクエリ
-    List<TaskEntity> findAllByOrderByPriorityDesc();
+    @Delete("DELETE FROM tasks WHERE id = #{id}")
+    void delete(@Param("id") Long id);
+
+    /**
+     * 複数IDでタスクをまとめて取得
+     */
+    @Select({
+        "<script>",
+        "SELECT * FROM tasks WHERE id IN",
+        "<foreach collection='ids' item='id' open='(' separator=',' close=')'>",
+        "  #{id}",
+        "</foreach>",
+        "</script>"
+    })
+    List<TaskEntity> findAllByIds(@Param("ids") List<Long> ids);
 }
-

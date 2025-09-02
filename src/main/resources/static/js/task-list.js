@@ -95,7 +95,8 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (action === 'edit') {
             const status = document.getElementById('bulkStatus').value;
             const priority = document.getElementById('bulkPriority').value;
-            if (!status && !priority) {
+            const assigneeId = document.getElementById('bulkAssignee').value;
+            if (!status && !priority　&& !assigneeId) {
                 alert('ステータスまたは優先度を選択してください');
                 return;
             }
@@ -106,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Content-Type': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: JSON.stringify({ ids, status, priority })
+                body: JSON.stringify({ ids, status, priority, assigneeId })
             })
             .then(res => {
                 if (res.ok) location.reload();
